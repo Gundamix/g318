@@ -44,7 +44,6 @@
     background-size:21px 21px;background-position:-1px -1px;
     color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;
     padding:14px 18px 44px;max-width:600px;margin:0 auto;-webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
   }
   :focus-visible{outline:2px solid var(--red);outline-offset:2px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -53,8 +52,8 @@
   .doodle{position:absolute;color:var(--ink3);opacity:.55;pointer-events:none;z-index:0}
   #clip{top:-4px;right:12px;width:34px;transform:rotate(14deg)}
   #stupa{bottom:10px;right:8px;width:44px;opacity:.42}
-  #rose{bottom:54px;left:-10px;width:40px;opacity:.3;transform:rotate(-7deg)}
-  #scrib{top:250px;left:-6px;width:26px;opacity:.35;transform:rotate(-8deg)}
+  #rose{bottom:54px;left:2px;width:40px;opacity:.3;transform:rotate(-7deg)}
+  #scrib{top:250px;left:0;width:26px;opacity:.35;transform:rotate(-8deg)}
 
   .topbar{display:flex;justify-content:flex-end;padding-bottom:2px;position:relative;z-index:1}
   #theme{background:none;border:0;cursor:pointer;padding:5px;color:var(--ink2);display:flex;line-height:0}
@@ -62,11 +61,21 @@
 
   /* 区块标题 */
   .sec{position:relative;margin-top:30px}
+  .gap{display:block;width:100%;height:26px;overflow:visible;color:var(--ink3);opacity:.45;margin-top:4px}
+  .edge{position:absolute;color:var(--ink3);opacity:.3;pointer-events:none;z-index:0}
+  #edgeL{left:-2px;top:420px;width:20px;height:150px}
+  #edgeR{right:-2px;top:980px;width:20px;height:170px}
   .sec:first-of-type{margin-top:6px}
   .sechd{display:flex;align-items:center;gap:9px;position:relative;padding-bottom:3px}
   .sechd .ic{font-size:21px;color:var(--ink2);position:relative;z-index:1}
   .sechd h2{font-family:var(--brush);font-size:27px;font-weight:400;letter-spacing:.05em;
     line-height:1.2;position:relative;z-index:1}
+  .sechd .crest{margin-left:auto;display:flex;gap:9px;align-items:center;flex:none}
+  .sechd .crest svg{width:31px;height:29px;display:block;color:var(--ink2);opacity:.85}
+  .sechd .crest span{position:relative;line-height:0}
+  .sechd .crest span::after{content:attr(data-p);position:absolute;left:50%;top:100%;
+    transform:translateX(-50%);font-family:var(--sans);font-size:9px;color:var(--ink3);
+    letter-spacing:0;white-space:nowrap}
   .sechd .dd{margin-left:auto;color:var(--ink3);opacity:.7;flex:none;line-height:0}
   .sechd .dd svg{width:34px;height:30px;display:block}
   .sechd .ct{margin-left:auto;font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
@@ -120,11 +129,8 @@
   .detail .nav button{background:none;border:0;color:var(--ink2);font:inherit;font-size:17px;
     line-height:1;cursor:pointer;padding:3px 7px}
   .detail .nav button:disabled{color:var(--ink3);opacity:.45;cursor:default}
-  .leg{padding-top:11px;margin-top:10px;border-top:1px solid var(--rule);font-size:13px}
-  .detail .hd + .leg{border-top:0;margin-top:0}
-  .leg .w{color:var(--ink2);font-variant-numeric:tabular-nums}
-  .leg .rec{padding-top:3px}
-  .leg .rec em{font-style:normal;color:var(--red);font-weight:700}
+  .detail .story{padding-top:11px;margin-top:10px;border-top:1px dashed var(--rule);
+    font-size:13.5px;line-height:1.75;color:var(--ink2)}
 
   /* 抽屉 */
   .drawers{margin-top:30px}
@@ -171,7 +177,7 @@
   .stop .km{color:var(--ink2);font-size:13px;font-variant-numeric:tabular-nums}
 
   .bg{display:flex;flex-direction:column;gap:9px}
-  .bgi{padding:11px 14px 12px;display:flex;align-items:baseline;gap:11px;
+  .bgi{cursor:pointer;padding:11px 14px 12px;display:flex;align-items:baseline;gap:11px;
     border:1.5px solid var(--red);border-radius:14px 5px 15px 6px/5px 14px 6px 15px}
   .bgi b{font-family:var(--brush);font-size:25px;font-weight:400;color:var(--red);flex:none;
     line-height:1;letter-spacing:.04em}
@@ -211,7 +217,7 @@
   #err:empty{display:none}
 
   .veil{position:fixed;inset:0;background:rgba(18,22,26,.6);display:flex;
-    align-items:center;justify-content:center;padding:24px;z-index:9}
+    align-items:center;justify-content:center;padding:24px;z-index:2147483000}
   .card{background-color:var(--paper);
     background-image:radial-gradient(var(--dot) 1.1px,transparent 1.1px);background-size:21px 21px;
     padding:24px 24px 20px;max-width:330px;width:100%;
@@ -238,10 +244,12 @@
 <svg class="doodle" id="rose" viewBox="0 0 42 42" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="21" cy="21" r="15"/><path d="M21 4v5M21 33v5M4 21h5M33 21h5"/><path d="M21 8l4.4 8.6L34 21l-8.6 4.4L21 34l-4.4-8.6L8 21l8.6-4.4z"/></svg>
 <svg class="doodle" id="stupa" viewBox="0 0 40 46" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 44h28M10 44v-7h20v7M13 37v-6h14v6M20 31a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M16 15l4-7 4 7M20 8V3"/><path d="M12 41h4M18 41h4M24 41h4M14 39.5h2M20 39.5h2M26 39.5h2"/></svg>
 
+<svg class="edge" id="edgeL" viewBox="0 0 20 150" aria-hidden="true"><path id="eg1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+<svg class="edge" id="edgeR" viewBox="0 0 20 170" aria-hidden="true"><path id="eg2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
 <div class="topbar"><button id="theme" aria-label="切换深浅色"></button></div>
 
 <section class="sec">
-  <div class="sechd"><span class="ic" id="icTrip"></span><h2>旅途进度</h2><span class="dd" data-dd="compass"></span></div>
+  <div class="sechd"><span class="ic" id="icTrip"></span><h2>旅途进度</h2><span class="crest" id="crest"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv1" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
 
   <div class="total"><span class="big" id="totalKm">0</span><span class="unit">公里</span><span class="pct" id="pct"></span></div>
@@ -251,6 +259,7 @@
   <div class="here" id="here">读取记录中…</div>
 </section>
 
+<svg class="gap" viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true"><path id="gp1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
 <section class="sec">
   <div class="sechd"><span class="ic" id="icPen"></span><h2>记一笔</h2><span class="dd" data-dd="shoe"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -264,6 +273,7 @@
   </div>
 </section>
 
+<svg class="gap" viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true"><path id="gp2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
 <section class="sec">
   <div class="sechd"><span class="ic" id="icMt"></span><h2>海拔剖面</h2><span class="dd" data-dd="cloud"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -275,6 +285,8 @@
       <g id="hatchG" clip-path="url(#earthClip)" stroke="var(--ink)" stroke-width=".85"
          stroke-linecap="round" fill="none" opacity=".17"></g>
       <g id="props" fill="none" stroke="var(--ink)" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></g>
+      <path id="river" fill="none" stroke="var(--ink3)" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
+      <g id="extras"></g>
       <g id="flags"></g>
       <path id="lineA" fill="none" stroke="var(--ink)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
       <path id="lineB" fill="none" stroke="var(--ink)" stroke-width="1" stroke-linecap="round" opacity=".38"/>
@@ -287,6 +299,7 @@
   <div id="detail"></div>
 </section>
 
+<svg class="gap" viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true"><path id="gp3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
 <div class="drawers">
   <details>
     <summary><span class="cv">▶</span><span class="ic" id="icData"></span>数据</summary>
@@ -342,30 +355,30 @@
 
 <script>
 const ROUTE=[
- {km:0,alt:50,name:'家',note:'起点',prop:'house'},
- {km:120,alt:20,name:'广州',badge:'一盅两件',flavor:'第一个一百二十公里。找家老茶楼坐下，虾饺烧卖各来一笼——这顿早茶你配得上。'},
- {km:710,alt:150,name:'桂林',badge:'漓江倒影',flavor:'七百公里，走进了石灰岩的山群。江面把山又画了一遍，你也在那幅画里。',prop:'karst'},
- {km:1280,alt:1070,name:'贵阳',badge:'酸汤',flavor:'第一次站上海拔一千米。一锅酸汤鱼下肚，从这里开始，路一直往上。'},
- {km:2130,alt:500,name:'成都',note:'G318 上路',badge:'零公里',flavor:'过半了。平原到此为止，G318 真正的起点就在你脚下。',prop:'city'},
- {km:2280,alt:620,name:'雅安',badge:'雅雨',flavor:'一年下两百天雨的城。出城就是二郎山，接下来每一步都在爬。'},
- {km:2480,alt:2560,name:'康定',badge:'溜溜的城',flavor:'折多河穿城而过。高原的门在这里，你已经把手放上去了。'},
- {km:2510,alt:4298,name:'折多山口',badge:'4298',flavor:'三十公里爬了 1,738 米。全线第一道垭口，你翻过去了。',prop:'flags'},
- {km:2555,alt:3460,name:'新都桥',badge:'光影走廊',flavor:'十公里的白杨和草甸。摄影的人走到这儿就不肯挪步，你也可以慢一点。'},
- {km:2630,alt:2600,name:'雅江',badge:'雅砻江',flavor:'松茸从这一带的林子里长出来。雅砻江在谷底响，你在路上。'},
- {km:2765,alt:4014,name:'理塘',badge:'世界高城',flavor:'海拔四千的毛垭草原。空气薄了，你还在走。'},
- {km:2930,alt:2580,name:'巴塘',badge:'弦子',flavor:'下到金沙江边。今晚该有人跳弦子，鼓点和你的步子一个节奏。'},
- {km:3035,alt:3870,name:'芒康',note:'进入西藏',badge:'盐井',flavor:'进西藏了。澜沧江边的古盐田晒了一千三百年，你走了三千公里。'},
- {km:3190,alt:3780,name:'左贡',badge:'玉曲',flavor:'沿玉曲河谷的一段，全线最容易走神的地方。你没有停。'},
- {km:3290,alt:4120,name:'邦达',badge:'邦达草原',flavor:'最平也最冷的一段草原。风很大，你顶过来了。'},
- {km:3390,alt:3260,name:'八宿',badge:'七十二拐',flavor:'怒江七十二拐，一路拐到谷底。骑行的人在这里推车，你走完了。'},
- {km:3480,alt:3960,name:'然乌',badge:'然乌湖',flavor:'冰川融水积成的湖，倒影清得不像真的。值得你站一会儿。'},
- {km:3610,alt:2750,name:'波密',badge:'米堆冰川',flavor:'藏东的桃花沟。海拔终于降下来了，喘口气。'},
- {km:3700,alt:1800,name:'通麦',badge:'通麦天险',flavor:'帕隆藏布最窄的地方，曾经是全线最险的一段。现在它是你的过去式。',prop:'trees'},
- {km:3760,alt:3300,name:'鲁朗',badge:'石锅鸡',flavor:'云杉林里的牧场。六十公里爬回 1,500 米之后，这锅石锅鸡是你应得的。'},
- {km:3840,alt:3000,name:'林芝',badge:'南迦巴瓦',flavor:'云开的时候才露一次的南迦巴瓦。十个人来九个看不到，但你已经到了。'},
- {km:3970,alt:3440,name:'工布江达',badge:'巴松措',flavor:'林子深处的巴松措。四千公里过去了，拉萨就在前面。'},
- {km:4090,alt:5013,name:'米拉山口',note:'全程最高',badge:'5013',flavor:'全程最高点，5,013 米。到这儿为止都是上坡，剩下的一路下山。',prop:'flags'},
- {km:4240,alt:3650,name:'大昭寺',note:'终点',badge:'到了',flavor:'八廓街的转经道上。4,240 公里，从家一直走到这里，你真的走完了。',prop:'temple'}
+ {km:0,alt:50,name:'家',story:'《道德经》第六十四章："合抱之木，生于毫末；九层之台，起于累土；千里之行，始于足下。"',note:'起点',prop:'house'},
+ {km:120,alt:20,name:'广州',story:'广府早茶讲"一盅两件"：一盅茶，两件点心。清末的二厘馆最早只收二厘钱，供脚夫和小贩天不亮吃完再开工。这套吃法传了一百多年没变。',badge:'一盅两件',flavor:'第一个一百二十公里。找家老茶楼坐下，虾饺烧卖各来一笼——这顿早茶你配得上。'},
+ {km:710,alt:150,name:'桂林',story:'这些孤峰是三亿多年前的海底。石灰岩被雨水和地下水溶蚀了千万年，才剩下柱子一样的山。"喀斯特"一词来自斯洛文尼亚的一片石头高地，原意就是"荒石地"。',badge:'漓江倒影',flavor:'七百公里，走进了石灰岩的山群。江面把山又画了一遍，你也在那幅画里。',prop:'karst'},
+ {km:1280,alt:1070,name:'贵阳',story:'贵州阴雨多、产盐少，苗侗人家把米汤和菜装坛自然发酵，酸味代替了咸味。当地话说："三天不吃酸，走路打蹿蹿。"',badge:'酸汤',flavor:'第一次站上海拔一千米。一锅酸汤鱼下肚，从这里开始，路一直往上。'},
+ {km:2130,alt:500,name:'成都',story:'杜甫在成都草堂住了四年，写下"窗含西岭千秋雪，门泊东吴万里船"。西岭就在城西，晴天从成都城里真能望见雪山。',note:'G318 上路',badge:'零公里',flavor:'过半了。平原到此为止，G318 真正的起点就在你脚下。',prop:'city'},
+ {km:2280,alt:620,name:'雅安',story:'雅安一年下两百多天雨，因为横断山把暖湿气流堵在了这里。唐代起它就是川藏茶马古道的起点，背夫背着上百斤茶砖翻二郎山，用丁字拐撑着歇脚，石板上至今有拐窝。',badge:'雅雨',flavor:'一年下两百天雨的城。出城就是二郎山，接下来每一步都在爬。'},
+ {km:2480,alt:2560,name:'康定',story:'康定旧称打箭炉，是汉藏两边商人换茶和马的锅庄集市。《康定情歌》原是当地的"溜溜调"，1940 年代才被记谱唱到外面去。',badge:'溜溜的城',flavor:'折多河穿城而过。高原的门在这里，你已经把手放上去了。'},
+ {km:2510,alt:4298,name:'折多山口',story:'"折多"在藏语里有弯曲的意思。当地人说"翻过折多山，才算进了西藏"——它同时是地理的分界和语言、习俗的分界。',badge:'4298',flavor:'三十公里爬了 1,738 米。全线第一道垭口，你翻过去了。',prop:'mani'},
+ {km:2555,alt:3460,name:'新都桥',story:'高原空气里水汽少，光几乎不打折地落到地上，明暗对比极强。摄影的人叫它"光影走廊"，其实是三千五百米海拔给的。',badge:'光影走廊',flavor:'十公里的白杨和草甸。摄影的人走到这儿就不肯挪步，你也可以慢一点。'},
+ {km:2630,alt:2600,name:'雅江',story:'松茸只长在活的松树根上，菌丝和树根共生，至今无法人工栽培。一朵要长五六年，采的时候必须留住菌丝，明年这窝才还有。',badge:'雅砻江',flavor:'松茸从这一带的林子里长出来。雅砻江在谷底响，你在路上。'},
+ {km:2765,alt:4014,name:'理塘',story:'六世达赖仓央嘉措写过："洁白的仙鹤，请把双翅借我，不往远处去飞，只到理塘就回。"后人认为这四句预示了他的转世之地。',badge:'世界高城',flavor:'海拔四千的毛垭草原。空气薄了，你还在走。'},
+ {km:2930,alt:2580,name:'巴塘',story:'巴塘弦子是用牛角胡伴奏的圆圈舞，男子持琴领舞，女子随后接唱，一支曲子可以跳到天亮。2006 年列入第一批国家级非物质文化遗产。',badge:'弦子',flavor:'下到金沙江边。今晚该有人跳弦子，鼓点和你的步子一个节奏。'},
+ {km:3035,alt:3870,name:'芒康',story:'盐井的古盐田在澜沧江边，晒了一千三百多年。卤水背上木架晒台，靠日晒风干。江西岸出白盐，东岸出红盐——同一条江，两岸土质不同。',note:'进入西藏',badge:'盐井',flavor:'进西藏了。澜沧江边的古盐田晒了一千三百年，你走了三千公里。'},
+ {km:3190,alt:3780,name:'左贡',story:'玉曲是怒江的支流。藏语里"曲"就是河，"措"是湖。高原上凡带"曲"字的地名，几乎都在水边。',badge:'玉曲',flavor:'沿玉曲河谷的一段，全线最容易走神的地方。你没有停。'},
+ {km:3290,alt:4120,name:'邦达',story:'邦达草原海拔四千三，属高寒草甸。这里的草一年只长几厘米，牦牛啃掉的一口，要长好几个月才补得回来。',badge:'邦达草原',flavor:'最平也最冷的一段草原。风很大，你顶过来了。'},
+ {km:3390,alt:3260,name:'八宿',story:'怒江在这一带切出的峡谷深逾两千米。七十二拐就修在谷壁上，从垭口一路盘到江边。这道峡谷是印度板块撞上欧亚板块挤出来的，现在每年还在抬升。',badge:'七十二拐',flavor:'怒江七十二拐，一路拐到谷底。骑行的人在这里推车，你走完了。'},
+ {km:3480,alt:3960,name:'然乌',story:'然乌湖是两百多年前山体滑坡堵住河谷形成的堰塞湖。湖水那种蓝绿色来自冰川磨碎岩石产生的极细颗粒，悬在水中把光散开，叫"冰川乳"。',badge:'然乌湖',flavor:'冰川融水积成的湖，倒影清得不像真的。值得你站一会儿。'},
+ {km:3610,alt:2750,name:'波密',story:'米堆冰川的末端只到海拔两千四，是中国位置最低的冰川之一。印度洋的暖湿气流沿雅鲁藏布大峡谷一路北上，在这里卸下大雪，冰川才能压到这么低。',badge:'米堆冰川',flavor:'藏东的桃花沟。海拔终于降下来了，喘口气。'},
+ {km:3700,alt:1800,name:'通麦',story:'帕隆藏布在这里切穿山体，两岸都是松动的堆积体。老川藏线的通麦天险塌方不断，有"通麦坟场"之称，2016 年隧道和大桥通车后才成了旧事。',badge:'通麦天险',flavor:'帕隆藏布最窄的地方，曾经是全线最险的一段。现在它是你的过去式。',prop:'trees'},
+ {km:3760,alt:3300,name:'鲁朗',story:'"鲁朗"藏语意为龙王谷。石锅鸡用的石锅是墨脱产的皂石凿的，只能靠人背出来，一口几十斤，越用越滑，据说能炖出别处炖不出的味道。',badge:'石锅鸡',flavor:'云杉林里的牧场。六十公里爬回 1,500 米之后，这锅石锅鸡是你应得的。'},
+ {km:3840,alt:3000,name:'林芝',story:'南迦巴瓦海拔 7782 米，常年裹在云里，被叫作"羞女峰"。雅鲁藏布江绕它脚下拐出一个马蹄形大弯，切出了世界最深的峡谷。',badge:'南迦巴瓦',flavor:'云开的时候才露一次的南迦巴瓦。十个人来九个看不到，但你已经到了。'},
+ {km:3970,alt:3440,name:'工布江达',story:'巴松措是宁玛派的圣湖，湖心岛上有措宗寺。当地人转湖，一律顺时针，走完一圈算一次修行。',badge:'巴松措',flavor:'林子深处的巴松措。四千公里过去了，拉萨就在前面。'},
+ {km:4090,alt:5013,name:'米拉山口',story:'米拉山是尼洋河与拉萨河的分水岭，也是气候的分界：东边湿润多林，西边半干旱。过了这道垭口，树会肉眼可见地变少。',note:'全程最高',badge:'5013',flavor:'全程最高点，5,013 米。到这儿为止都是上坡，剩下的一路下山。',prop:'flags'},
+ {km:4240,alt:3650,name:'大昭寺',story:'大昭寺建于七世纪，供奉文成公主带进藏的释迦牟尼十二岁等身像。八廓街本身就是围着它的转经道，顺时针，从天亮到天黑都有人在走。',note:'终点',badge:'到了',flavor:'八廓街的转经道上。磕长头的人用身体一寸一寸量完这条路，你用两年的清晨量完了它。走到这里的人都明白，重要的从来不是这座寺，是那 4,240 公里。',prop:'temple'}
 ];
 const FULL=4240, GOAL=4240, LKEY='g318:v2', TKEY='g318:theme';
 const LUNGTA=['#2E6FA8','#F2F0E8','#C0392F','#3E8E5A','#E0A22B'];
@@ -406,6 +419,17 @@ const DD={
    '<path d="M21 8l4.4 8.6L34 21l-8.6 4.4L21 34l-4.4-8.6L8 21l8.6-4.4z"/>'+
    '<path d="M14 14l3.4 3.4M28 14l-3.4 3.4M14 28l3.4-3.4M28 28l-3.4-3.4"/>'
 };
+const CREST=[
+ {km:0,   prov:'广东',d:'<ellipse cx="15" cy="9.5" rx="10" ry="3.2"/><path d="M5 9.5v4.6c0 1.8 4.5 3.1 10 3.1s10-1.3 10-3.1V9.5"/><path d="M5 14.1v4.8c0 1.8 4.5 3.1 10 3.1s10-1.3 10-3.1v-4.8"/><path d="M11 7l1.8-2.6M15 6.6l1.8-2.6M19 7l1.6-2.4"/>'},
+ {km:380, prov:'广西',d:'<path d="M2 23h26"/><path d="M4 23V12.5C4 7.8 7 4.5 11 4.5s7 3.3 7 8V23"/><path d="M18 23V12c0-2.6 1.6-4.4 3.6-4.4S25 9.4 25 12v11"/><path d="M18 23v-5.4c0-2 1.6-3.4 3.6-3.4S25 15.6 25 17.6V23"/><path d="M2 26c3 1.2 5-1 8 0s5 1 8 0 5-1 8 0"/>'},
+ {km:1050,prov:'贵州',d:'<path d="M15 24v-5.5"/><path d="M9 18.5h12"/><path d="M8 17C4 11 4.2 6 7 2.5c1.8 4 5 6.2 8 6.2"/><path d="M22 17c4-6 3.8-11 1-14.5-1.8 4-5 6.2-8 6.2"/><path d="M11 12.5c1.6 1.4 6.8 1.4 8.4 0"/>'},
+ {km:1950,prov:'四川',d:'<circle cx="15" cy="16" r="8.6"/><circle cx="7.8" cy="8.4" r="3.3"/><circle cx="22.2" cy="8.4" r="3.3"/><ellipse cx="11.6" cy="14.8" rx="2.3" ry="2.9"/><ellipse cx="18.4" cy="14.8" rx="2.3" ry="2.9"/><path d="M15 19v1.4"/><path d="M13.1 21.6c1.2 1 2.6 1 3.8 0"/>'},
+ {km:3035,prov:'西藏',d:'<path d="M15 3v3.4"/><rect x="9" y="6.4" width="12" height="12.4" rx="1.6"/><path d="M9 10.5h12M9 14.7h12"/><path d="M15 18.8V26"/><path d="M11.5 26h7"/><path d="M21 12c3.2 0 5.4 1.6 5.4 3.6"/><circle cx="26.4" cy="18" r="2.1"/>'}
+];
+function paintCrest(km){
+  $('crest').innerHTML=CREST.filter(c=>km>=c.km).map(c=>
+    `<span data-p="${c.prov}">${ddSVG(c.d,30,28)}</span>`).join('');
+}
 const ddSVG=(b,w,h)=>`<svg viewBox="0 0 ${w} ${h}" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${b}</svg>`;
 const icoSVG=b=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">${b}</svg>`;
 function paintIcons(){
@@ -480,6 +504,22 @@ function penCircle(cx,cy,rad,seed){
   }
   return d;
 }
+function snake(x,y,len,seed,amp,vert){
+  const r=seeded(seed),pts=[];let a=vert?1.5708:0;
+  let px=x,py=y;
+  const step=len/14;
+  for(let i=0;i<=14;i++){
+    pts.push([px,py]);
+    a+=(r()-.5)*1.5;                     // 每一段随便拐一点，像蛇爬过
+    px+=Math.cos(a)*step;py+=Math.sin(a)*step*(amp||1);
+  }
+  let d=`M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for(let i=1;i<pts.length-1;i++){
+    const mx=(pts[i][0]+pts[i+1][0])/2,my=(pts[i][1]+pts[i+1][1])/2;
+    d+=`Q${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)}`;
+  }
+  return d;
+}
 function wavePath(w,h,waves,seed){
   const r=seeded(seed),pts=[];
   const n=waves*10;
@@ -507,6 +547,17 @@ function trees(x,y,k){let d='';
     d+=' '+pen([[cx-w,y],[cx,y-h],[cx+w,y]],k+i,1)+
        ' '+pen([[cx-w*.7,y-h*.45],[cx,y-h*.86],[cx+w*.7,y-h*.45]],k+i+11,.9)});
   return d.trim()}
+function mani(x,y,k){
+  let d='',cy=y,o=0;
+  [8.5,7,5.6,4.4,3.2].forEach((r,i)=>{
+    o=(i%2?1:-1)*1.3;
+    d+=' '+penCircle(x+o,cy-r*0.78,r,k+i*7);
+    cy-=r*1.45;
+  });
+  d+=' '+pen([[x,cy+1],[x+1,cy-13]],k+40,.7);              // 插在顶上的经杆
+  d+=' '+pen([[x+1,cy-13],[x+10,cy-11],[x+1,cy-7.5]],k+41,.7);  // 一面小旗
+  return d.trim();
+}
 function temple(x,y,k){const w=15;
   return pen([[x-w,y],[x-w,y-14],[x+w,y-14],[x+w,y]],k,1.1)+' '+
          pen([[x-w-6,y-14],[x-w+2,y-23],[x+w-2,y-23],[x+w+6,y-14]],k+1,1.1)+' '+
@@ -547,6 +598,7 @@ function drawScene(km){
     else if(p.prop==='karst')d+=' '+karst(x,y,k);
     else if(p.prop==='city')d+=' '+city(x,y,k);
     else if(p.prop==='trees')d+=' '+trees(x,y,k);
+    else if(p.prop==='mani')d+=' '+mani(x,y,k);
     else if(p.prop==='temple')d+=' '+temple(Math.min(x,W-18),y,k);
   });
   $('props').setAttribute('d',d.trim());
@@ -580,6 +632,22 @@ function drawScene(km){
     pen([[wx-4.6,wy],[wx,wy-h*.45],[wx+5.2,wy-1]],103,.8)+' '+
     pen([[wx-5.4,wy-h*.8],[wx,wy-h*.62],[wx+5,wy-h*.84]],107,.8));
 
+  // 低地段的河：蜿蜒穿过前两千公里
+  const riv=$('river');
+  riv.setAttribute('d',
+    snake(X(180),Y(60)+14,X(1150)-X(180),1717,.10)+' '+
+    pen([[X(300),Y(60)+22],[X(420),Y(60)+23]],1718,1.2)+' '+
+    pen([[X(620),Y(60)+26],[X(760),Y(60)+25]],1719,1.2));
+  // 两只鸟和垭口的风
+  const ex=$('extras');ex.textContent='';
+  [[X(1500),96],[X(1570),80],[X(1640),104]].forEach((b,i)=>{
+    ex.appendChild(el('path',{d:`M${b[0]-9} ${b[1]}q4.5 -4.5 9 0q4.5 -4.5 9 0`,fill:'none',
+      stroke:'var(--ink2)','stroke-width':'1.2','stroke-linecap':'round',opacity:'.7'}));
+  });
+  [[X(2510),Y(4298)-26],[X(4090),Y(5013)-20]].forEach((wnd,i)=>{
+    ex.appendChild(el('path',{d:snake(wnd[0]-52,wnd[1],44,2100+i*13,.30),fill:'none',
+      stroke:'var(--ink3)','stroke-width':'1.1','stroke-linecap':'round',opacity:'.8'}));
+  });
   const sk=$('sky');sk.textContent='';
   const sx=W-46,sy=30;
   if(isDark()){
@@ -643,18 +711,6 @@ function drawBar(frac){
 }
 
 /* ---------- 坡度 ---------- */
-function legHTML(i){
-  const a=ROUTE[i],b=ROUTE[i+1];
-  const dk=b.km-a.km,da=b.alt-a.alt,gr=da/(dk*1000)*100;
-  let inc,kind;
-  if(gr>=0.25){inc=Math.min(8,Math.max(1,Math.round(gr*2)/2))+'%';kind='上坡'}
-  else if(gr<=-0.25){inc='0';kind='下坡'}
-  else{inc='1%';kind='平路（1% 模拟平地）'}
-  const climb=da>=0?`爬升 ${fmt(da)} m`:`下降 ${fmt(-da)} m`;
-  return `<div class="leg"><div>${esc(a.name)} → ${esc(b.name)}</div>
-    <div class="w">${fmt(dk)} km · ${climb} · 平均 ${gr>=0?'+':'−'}${Math.abs(gr).toFixed(2)}%</div>
-    <div class="rec">建议坡度 <em>${inc}</em> · ${kind}</div></div>`;
-}
 function renderDetail(){
   const box=$('detail');
   if(sel===null){box.innerHTML='';return}
@@ -662,11 +718,11 @@ function renderDetail(){
   box.innerHTML=`<div class="detail"><div class="hd"><b>${esc(p.name)}</b>
     <span>${fmt(p.km)} km · 海拔 ${fmt(p.alt)} m</span>
     <div class="nav">
-      <button id="pv"${sel===0?' disabled':''} aria-label="上一个点">‹</button>
-      <button id="nx"${sel===ROUTE.length-1?' disabled':''} aria-label="下一个点">›</button>
-      <button id="cl" aria-label="关闭">×</button>
+      <button id="pv"${sel===0?' disabled':''} aria-label="上一个点">\u2039</button>
+      <button id="nx"${sel===ROUTE.length-1?' disabled':''} aria-label="下一个点">\u203a</button>
+      <button id="cl" aria-label="关闭">\u00d7</button>
     </div></div>
-    ${sel>0?legHTML(sel-1):''}${sel<ROUTE.length-1?legHTML(sel):''}</div>`;
+    ${p.story?`<div class="story">${esc(p.story)}</div>`:''}</div>`;
   if($('pv'))$('pv').onclick=()=>select(sel-1);
   if($('nx'))$('nx').onclick=()=>select(sel+1);
   $('cl').onclick=()=>select(null);
@@ -696,6 +752,7 @@ function render(){
   $('totalKm').textContent=t%1?t.toFixed(1):fmt(t);
   $('pct').textContent=(t/GOAL*100).toFixed(1)+'%';
   drawBar(Math.min(1,t/GOAL));
+  paintCrest(cap);
   drawScene(cap);
 
   let passed=ROUTE[0],next=null;
@@ -746,7 +803,7 @@ function render(){
   const B=ROUTE.filter(p=>p.badge);
   $('ctBadges').textContent=`${B.filter(p=>cap>=p.km).length} / ${B.length}`;
   const gotB=B.filter(p=>cap>=p.km).reverse();
-  $('badges').innerHTML=gotB.length?gotB.map(p=>`<div class="bgi"><b>${esc(p.badge)}</b>
+  $('badges').innerHTML=gotB.length?gotB.map(p=>`<div class="bgi" data-bg="${p.km}"><b>${esc(p.badge)}</b>
       <span>${esc(p.flavor)}</span><span class="k">${fmt(p.km)} km</span></div>`).join('')
     :'<div class="empty" style="padding:0 2px">还没有徽章。走到第一个站点就会弹出来。</div>';
 
@@ -760,11 +817,14 @@ function render(){
 }
 
 /* ---------- 徽章 ---------- */
+let QUEUE=[];
 function checkBadges(){
   const t=Math.min(total(),FULL),ack=state.ack;
   const got=ROUTE.filter(p=>p.badge&&p.km>ack&&p.km<=t);
   state.ack=t;
-  return got.length?got[got.length-1]:null;
+  if(!got.length)return null;
+  QUEUE=got.slice(1);              // 一次跨过好几个站就一个个弹
+  return got[0];
 }
 function popup(p){
   const rem=GOAL-total();
@@ -777,8 +837,9 @@ function popup(p){
     <p>${esc(p.flavor)}</p>
     <div class="acts"><button id="shareBtn">分享</button><button id="closeBtn">继续</button></div>
     <div class="copied" id="copied"></div></div>`;
-  document.body.appendChild(v);
-  const close=()=>v.remove();
+  (document.documentElement||document.body).appendChild(v);
+  document.body.style.overflow='hidden';
+  const close=()=>{v.remove();document.body.style.overflow='';if(QUEUE.length)popup(QUEUE.shift())};
   v.querySelector('#closeBtn').onclick=close;
   v.addEventListener('click',e=>{if(e.target===v)close()});
   v.querySelector('#shareBtn').onclick=async()=>{
@@ -837,6 +898,10 @@ $('entries').addEventListener('click',e=>{
   state.entries=state.entries.filter(x=>x.id!==id);
   state.ack=Math.min(state.ack,Math.min(total(),FULL));
   commit();
+});
+$('badges').addEventListener('click',e=>{
+  const b=e.target.closest('[data-bg]');if(!b)return;
+  const p=ROUTE.find(x=>x.km===+b.dataset.bg);if(p)popup(p);
 });
 $('stops').addEventListener('click',e=>{
   const b=e.target.closest('.stop');if(!b)return;
@@ -906,6 +971,11 @@ $('wv1').setAttribute('d',wavePath(600,9,11,21));
 $('wv2').setAttribute('d',wavePath(600,9,11,22));
 $('wv3').setAttribute('d',wavePath(600,9,11,23));
 $('sq1').setAttribute('d',wavePath(210,12,3.2,31));
+$('gp1').setAttribute('d',snake(40,13,520,501,.55));
+$('gp2').setAttribute('d',snake(60,13,500,777,.55));
+$('gp3').setAttribute('d',snake(30,13,540,912,.55));
+$('eg1').setAttribute('d',snake(10,8,140,331,.9,1));
+$('eg2').setAttribute('d',snake(10,8,160,442,.9,1));
 let savedTheme=null;try{savedTheme=localStorage.getItem(TKEY)}catch(e){}
 applyTheme(savedTheme);
 try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{
