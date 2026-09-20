@@ -1,0 +1,17 @@
+{
+  "name": "走到大昭寺",
+  "short_name": "大昭寺",
+  "description": "跑步机上走完 G318，家到拉萨 4,240 公里",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FCFBF7",
+  "theme_color": "#FCFBF7",
+  "lang": "zh-CN",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

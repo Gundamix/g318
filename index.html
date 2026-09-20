@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>走到大昭寺</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" href="./icon-192.png">
+<meta name="theme-color" content="#FCFBF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171A" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="true">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Ma+Shan+Zheng&display=swap">
+<style>
+  :root{
+    color-scheme:light;
+    --paper:#FCFBF7; --dot:#E3E2D9; --ink:#1E2A33; --ink2:#62717C; --ink3:#9BA6AE;
+    --rule:#DCDDD6; --red:#C0392F; --redsoft:rgba(192,57,47,.26); --earth:rgba(30,42,51,.05);
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+    --num:"Caveat","PingFang SC",cursive;
+    --brush:"Ma Shan Zheng","PingFang SC",cursive;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+    box-sizing:border-box;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --paper:#14171A; --dot:#262C31; --ink:#EAE8E2; --ink2:#95A0A8; --ink3:#5F6970;
+      --rule:#282E33; --red:#E06A5B; --redsoft:rgba(224,106,91,.28); --earth:rgba(234,232,226,.045);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --paper:#14171A; --dot:#262C31; --ink:#EAE8E2; --ink2:#95A0A8; --ink3:#5F6970;
+    --rule:#282E33; --red:#E06A5B; --redsoft:rgba(224,106,91,.28); --earth:rgba(234,232,226,.045);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    position:relative;
+    background-color:var(--paper);
+    background-image:radial-gradient(var(--dot) 1.1px,transparent 1.1px);
+    background-size:21px 21px;background-position:-1px -1px;
+    color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;
+    padding:14px 18px 44px;max-width:600px;margin:0 auto;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  :focus-visible{outline:2px solid var(--red);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  .ic{width:1em;height:1em;flex:none}
+  .doodle{position:absolute;color:var(--ink3);opacity:.55;pointer-events:none;z-index:0}
+  #clip{top:-4px;right:12px;width:34px;transform:rotate(14deg)}
+  #stupa{bottom:8px;right:6px;width:44px;opacity:.4}
+  #scrib{top:250px;left:-6px;width:26px;opacity:.35;transform:rotate(-8deg)}
+
+  .topbar{display:flex;justify-content:flex-end;padding-bottom:2px;position:relative;z-index:1}
+  #theme{background:none;border:0;cursor:pointer;padding:5px;color:var(--ink2);display:flex;line-height:0}
+  #theme svg{width:19px;height:19px}
+
+  /* 区块标题 */
+  .sec{position:relative;margin-top:30px}
+  .sec:first-of-type{margin-top:6px}
+  .sechd{display:flex;align-items:center;gap:9px;position:relative;padding-bottom:3px}
+  .sechd .tape{position:absolute;left:-10px;top:-7px;width:96px;height:26px;z-index:0;
+    transform:rotate(-2.4deg);opacity:.5;
+    background:repeating-linear-gradient(58deg,var(--rule) 0 3px,transparent 3px 8px);
+    border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+  .sechd .ic{font-size:21px;color:var(--ink2);position:relative;z-index:1}
+  .sechd h2{font-family:var(--brush);font-size:27px;font-weight:400;letter-spacing:.05em;
+    line-height:1.2;position:relative;z-index:1}
+  .sechd .ct{margin-left:auto;font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .wave{display:block;width:100%;height:9px;overflow:visible;color:var(--rule)}
+
+  /* 进度 */
+  .total{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding-top:14px}
+  .total .big{font-family:var(--num);font-size:126px;font-weight:700;line-height:.74;letter-spacing:.005em}
+  .total .unit{font-family:var(--brush);font-size:34px;color:var(--ink2);line-height:1;letter-spacing:.04em}
+  .total .pct{font-family:var(--num);font-size:26px;color:var(--red);margin-left:auto;line-height:1}
+  .squig{display:block;width:210px;max-width:64%;height:12px;overflow:visible;color:var(--ink3);margin:2px 0 0 2px}
+  .bar{margin:16px 0 0}
+  .bar svg{display:block;width:100%;height:auto;overflow:visible}
+  .here{font-size:13.5px;color:var(--ink2);padding:10px 1px 0}
+  .here b{color:var(--red);font-weight:600}
+
+  /* 面板 */
+  .panel{border:1.5px solid var(--rule);border-radius:17px 6px 15px 7px/7px 16px 6px 17px;
+    padding:15px 15px 16px;margin-top:12px}
+  .panel.dash{border-style:dashed}
+
+  .entry{display:flex;gap:8px}
+  .entry input{flex:1;min-width:0;background:transparent;color:var(--ink);font:inherit;
+    font-variant-numeric:tabular-nums;padding:12px 14px;
+    border:1.6px solid var(--ink);border-radius:15px 5px 13px 6px/6px 14px 5px 15px}
+  .entry input::placeholder{color:var(--ink3)}
+  .entry button{background:var(--ink);color:var(--paper);font-family:var(--brush);font-size:19px;
+    padding:0 24px;cursor:pointer;letter-spacing:.06em;
+    border:1.6px solid var(--ink);border-radius:6px 15px 5px 13px/14px 6px 15px 5px}
+  .entry button:active{background:var(--red);border-color:var(--red)}
+  .noteline{display:flex;align-items:center;gap:8px;padding-top:12px;color:var(--ink3)}
+  .noteline input{flex:1;background:transparent;border:0;border-bottom:1.4px dashed var(--rule);
+    color:var(--ink);font:inherit;font-size:13.5px;padding:5px 2px 7px}
+  .noteline input::placeholder{color:var(--ink3)}
+  .noteline input:focus{outline:0;border-bottom-color:var(--red)}
+  .hint{font-size:12px;color:var(--red);padding:10px 2px 0;min-height:17px}
+  .hint.ok{color:var(--ink2)}
+
+  /* 风景 */
+  .scene{margin:6px -6px 0}
+  #chart{display:block;width:100%;height:auto;overflow:visible;cursor:pointer}
+  .detail{margin:14px 0 0;padding:13px 15px 15px;
+    border:1.6px solid var(--ink);border-radius:5px 16px 6px 14px/15px 5px 14px 6px}
+  .detail .hd{display:flex;align-items:baseline;gap:9px;padding-bottom:2px}
+  .detail .hd b{font-family:var(--brush);font-size:21px;font-weight:400;letter-spacing:.04em}
+  .detail .hd span{font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .detail .nav{margin-left:auto;display:flex;gap:1px;flex:none}
+  .detail .nav button{background:none;border:0;color:var(--ink2);font:inherit;font-size:17px;
+    line-height:1;cursor:pointer;padding:3px 7px}
+  .detail .nav button:disabled{color:var(--ink3);opacity:.45;cursor:default}
+  .leg{padding-top:11px;margin-top:10px;border-top:1px solid var(--rule);font-size:13px}
+  .detail .hd + .leg{border-top:0;margin-top:0}
+  .leg .w{color:var(--ink2);font-variant-numeric:tabular-nums}
+  .leg .rec{padding-top:3px}
+  .leg .rec em{font-style:normal;color:var(--red);font-weight:700}
+
+  /* 抽屉 */
+  .drawers{margin-top:30px}
+  details{margin-bottom:6px}
+  summary{display:flex;align-items:center;gap:9px;padding:11px 3px;cursor:pointer;
+    font-family:var(--brush);font-size:23px;letter-spacing:.05em;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary .ic{font-size:20px;color:var(--ink2)}
+  summary .ct{margin-left:auto;font-family:var(--sans);font-size:12.5px;color:var(--ink2);
+    font-variant-numeric:tabular-nums}
+  summary .cv{color:var(--ink3);font-size:10px;transition:transform .18s;flex:none;font-family:var(--sans)}
+  details[open] summary .cv{transform:rotate(90deg)}
+
+  .logtop{padding-bottom:12px;border-bottom:1px dashed var(--rule)}
+  .wk{font-size:13px;color:var(--ink2)}
+  .wk b{font-family:var(--num);font-size:21px;color:var(--ink);font-weight:700}
+  .left{font-size:13px;color:var(--ink2);padding-top:2px}
+  .left b{color:var(--ink);font-weight:600}
+
+  /* 数据格 */
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px 10px;text-align:center}
+  .grid .ic{font-size:19px;color:var(--ink2);margin:0 auto 5px;display:block}
+  .grid dt{font-size:11.5px;color:var(--ink2);padding-bottom:2px}
+  .grid dd{font-family:var(--num);font-size:30px;font-weight:700;line-height:1}
+  .grid dd small{font-family:var(--sans);font-size:11px;font-weight:400;color:var(--ink2);padding-left:3px}
+  .grid dd.soft{font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);line-height:1.5}
+  @media (max-width:380px){.grid{grid-template-columns:1fr 1fr}}
+  .bars{display:flex;align-items:flex-end;gap:5px;height:48px;padding-top:22px}
+  .bars i{flex:1;min-height:2px;background:var(--rule);border-radius:2px 2px 0 0}
+  .bars i.cur{background:var(--red)}
+  .barsLab{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);padding-top:5px}
+
+  .stop{display:grid;grid-template-columns:13px 1fr auto;align-items:center;gap:11px;
+    width:100%;padding:9px 0;border:0;border-bottom:1px dashed var(--rule);
+    background:none;text-align:left;color:inherit;font-family:inherit;font-size:14px;cursor:pointer}
+  .stop:last-child{border-bottom:0}
+  .stop .dot{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--ink3);margin-left:2px}
+  .stop.done .dot{background:var(--red);border-color:var(--red)}
+  .stop.now .dot{box-shadow:0 0 0 3.5px var(--redsoft)}
+  .stop .nm{color:var(--ink3)}
+  .stop.done .nm{color:var(--ink)}
+  .stop small{color:var(--ink2);font-size:11.5px;padding-left:6px}
+  .stop.now small{color:var(--red)}
+  .stop .km{color:var(--ink2);font-size:13px;font-variant-numeric:tabular-nums}
+
+  .bg{display:flex;flex-direction:column;gap:9px}
+  .bgi{padding:11px 14px 12px;display:flex;align-items:baseline;gap:11px;
+    border:1.5px solid var(--red);border-radius:14px 5px 15px 6px/5px 14px 6px 15px}
+  .bgi b{font-family:var(--brush);font-size:25px;font-weight:400;color:var(--red);flex:none;
+    line-height:1;letter-spacing:.04em}
+  .bgi span{font-size:12.5px;color:var(--ink2);line-height:1.45}
+  .bgi .k{margin-left:auto;font-size:11.5px;color:var(--ink3);flex:none;font-variant-numeric:tabular-nums}
+
+  .row{display:flex;align-items:baseline;gap:12px;padding:9px 0;
+    border-bottom:1px dashed var(--rule);font-size:14px;flex-wrap:wrap}
+  .row .d{color:var(--ink2);font-size:13px;font-variant-numeric:tabular-nums}
+  .row .k{margin-left:auto;font-variant-numeric:tabular-nums}
+  .row .nt{width:100%;font-size:12.5px;color:var(--ink2);padding-left:2px;line-height:1.45}
+  .row button{background:none;border:0;color:var(--ink3);font:inherit;font-size:12px;
+    cursor:pointer;padding:0 2px 0 6px}
+  .row button:hover{color:var(--red)}
+  .empty{color:var(--ink2);font-size:13.5px;padding:12px 2px}
+
+  /* 补记（记录抽屉最下方） */
+  .backfill{margin-top:14px;padding-top:13px;border-top:1px dashed var(--rule)}
+  #bdToggle{background:none;border:0;color:var(--ink2);font:inherit;font-size:12.5px;cursor:pointer;
+    padding:2px 0;text-decoration:underline;text-underline-offset:3px;display:flex;align-items:center;gap:6px}
+  #bdToggle .ic{font-size:14px}
+  #bdForm{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding-top:11px}
+  #bdForm input{background:transparent;border:1.2px solid var(--rule);color:var(--ink);font:inherit;
+    font-size:13px;padding:8px 10px;border-radius:9px 4px 8px 5px/5px 8px 4px 9px;min-width:0}
+  #bdForm #bdNote{grid-column:1/-1}
+  #bdForm button{grid-column:1/-1;background:none;border:1.4px solid var(--ink);color:var(--ink);
+    font-family:var(--brush);font-size:17px;padding:8px;cursor:pointer;letter-spacing:.06em;
+    border-radius:5px 12px 6px 11px/11px 6px 12px 5px}
+  #bdForm[hidden]{display:none}
+
+  footer{padding-top:26px;font-size:12.5px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    position:relative}
+  footer button{background:none;border:0;color:var(--ink3);font:inherit;font-size:12.5px;
+    cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+  footer #reset.arm{color:var(--red)}
+  #note2{width:100%;color:var(--ink3);font-size:11.5px;padding-top:4px;line-height:1.5}
+  #err{width:100%;color:var(--red);font-size:11.5px;padding-top:3px}
+  #err:empty{display:none}
+
+  .veil{position:fixed;inset:0;background:rgba(18,22,26,.6);display:flex;
+    align-items:center;justify-content:center;padding:24px;z-index:9}
+  .card{background-color:var(--paper);
+    background-image:radial-gradient(var(--dot) 1.1px,transparent 1.1px);background-size:21px 21px;
+    padding:24px 24px 20px;max-width:330px;width:100%;
+    border:2px solid var(--red);border-radius:19px 7px 17px 8px/8px 18px 7px 19px;
+    animation:pop .3s cubic-bezier(.2,.8,.3,1)}
+  @keyframes pop{from{opacity:0;transform:scale(.94) rotate(-.7deg)}to{opacity:1;transform:none}}
+  .card h3{font-family:var(--brush);font-size:46px;font-weight:400;color:var(--red);line-height:1.05;
+    padding-bottom:8px;letter-spacing:.04em}
+  .card .place{font-size:12.5px;color:var(--ink2);padding-bottom:12px;font-variant-numeric:tabular-nums}
+  .card p{font-size:13.5px;line-height:1.6;padding-bottom:20px}
+  .card .acts{display:flex;gap:8px}
+  .card .acts button{flex:1;font:inherit;font-size:13.5px;padding:10px;cursor:pointer}
+  .card #shareBtn{background:none;border:1.5px solid var(--ink);color:var(--ink);
+    border-radius:12px 5px 11px 6px/6px 12px 5px 12px}
+  .card #closeBtn{background:var(--red);border:1.5px solid var(--red);color:#fff;font-weight:600;
+    border-radius:5px 12px 6px 11px/12px 6px 12px 5px}
+  .copied{font-size:12px;color:var(--ink2);padding-top:10px;text-align:center;word-break:break-all}
+</style>
+</head>
+<body>
+
+<svg class="doodle" id="clip" viewBox="0 0 24 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M16.5 6v25a5.5 5.5 0 0 1-11 0V8a3.4 3.4 0 0 1 6.8 0v22a1.7 1.7 0 0 1-3.4 0V10"/></svg>
+<svg class="doodle" id="scrib" viewBox="0 0 24 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3v30M12 33l-5-6M12 33l5-6"/><path d="M5 38h14"/></svg>
+<svg class="doodle" id="stupa" viewBox="0 0 40 46" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 44h28M10 44v-7h20v7M13 37v-6h14v6M20 31a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M16 15l4-7 4 7M20 8V3"/></svg>
+
+<div class="topbar"><button id="theme" aria-label="切换深浅色"></button></div>
+
+<section class="sec">
+  <div class="sechd"><span class="tape"></span><span class="ic" id="icTrip"></span><h2>旅途进度</h2></div>
+  <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv1" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+
+  <div class="total"><span class="big" id="totalKm">0</span><span class="unit">公里</span><span class="pct" id="pct"></span></div>
+  <svg class="squig" viewBox="0 0 210 12" preserveAspectRatio="none" aria-hidden="true"><path id="sq1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+
+  <div class="bar"><svg id="barSvg" viewBox="0 0 600 88" aria-hidden="true"></svg></div>
+  <div class="here" id="here">读取记录中…</div>
+</section>
+
+<section class="sec">
+  <div class="sechd"><span class="tape"></span><span class="ic" id="icPen"></span><h2>记一笔</h2></div>
+  <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  <div class="panel dash">
+    <div class="entry">
+      <input id="km" type="number" inputmode="decimal" step="0.1" min="0" placeholder="今天走了多少公里">
+      <button id="add">记一笔</button>
+    </div>
+    <div class="noteline"><span class="ic" id="icNote"></span><input id="note" type="text" maxlength="80" placeholder="备注"></div>
+    <div class="hint" id="hint"></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sechd"><span class="tape"></span><span class="ic" id="icMt"></span><h2>沿途风景</h2></div>
+  <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  <div class="scene">
+    <svg id="chart" viewBox="0 0 800 330" role="img" aria-label="沿途地形与当前位置">
+      <defs><clipPath id="walked"><rect id="clipRect" x="-20" y="-60" width="0" height="460"/></clipPath></defs>
+      <path id="earth" fill="var(--earth)" stroke="none"/>
+      <g id="props" fill="none" stroke="var(--ink)" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></g>
+      <g id="flags"></g>
+      <path id="lineA" fill="none" stroke="var(--ink)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="lineB" fill="none" stroke="var(--ink)" stroke-width="1" stroke-linecap="round" opacity=".38"/>
+      <path id="lineR" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#walked)"/>
+      <g id="nodes"></g>
+      <path id="walker" fill="none" stroke="var(--red)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+      <g id="sky" fill="none" stroke="var(--ink2)" stroke-width="1.3" stroke-linecap="round"></g>
+    </svg>
+  </div>
+  <div id="detail"></div>
+</section>
+
+<div class="drawers">
+  <details>
+    <summary><span class="cv">▶</span><span class="ic" id="icData"></span>数据</summary>
+    <div class="panel">
+      <dl class="grid">
+        <div><span class="ic" data-ic="mount"></span><dt>当前海拔</dt><dd id="sAlt">—</dd></div>
+        <div><span class="ic" data-ic="up"></span><dt>累计爬升</dt><dd id="sGain">—</dd></div>
+        <div><span class="ic" data-ic="foot"></span><dt>每次平均</dt><dd id="sPer">—</dd></div>
+        <div><span class="ic" data-ic="cal"></span><dt>实际推进</dt><dd id="sPace">—</dd></div>
+        <div><span class="ic" data-ic="flag"></span><dt>预计抵达</dt><dd id="sEta">—</dd></div>
+        <div><span class="ic" data-ic="book"></span><dt>记录</dt><dd id="sCnt">—</dd></div>
+      </dl>
+      <div class="bars" id="bars"></div>
+      <div class="barsLab"><span>8 周前</span><span>本周</span></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="cv">▶</span><span class="ic" id="icPost"></span>沿途站点<span class="ct" id="ctStops"></span></summary>
+    <div class="panel" id="stops"></div>
+  </details>
+
+  <details>
+    <summary><span class="cv">▶</span><span class="ic" id="icSeal"></span>徽章<span class="ct" id="ctBadges"></span></summary>
+    <div class="panel"><div class="bg" id="badges"></div></div>
+  </details>
+
+  <details>
+    <summary><span class="cv">▶</span><span class="ic" id="icBook"></span>记录<span class="ct" id="ctLog"></span></summary>
+    <div class="panel">
+      <div class="logtop"><div class="wk" id="wk"></div><div class="left" id="leftTxt"></div></div>
+      <div id="entries"></div>
+      <div class="backfill">
+        <button id="bdToggle"><span class="ic" data-ic="cal"></span><span id="bdLabel">补记其他日期</span></button>
+        <div id="bdForm" hidden>
+          <input id="bdDate" type="date" aria-label="日期">
+          <input id="bdKm" type="number" inputmode="decimal" step="0.1" min="0" placeholder="公里" aria-label="公里">
+          <input id="bdNote" type="text" maxlength="80" placeholder="备注" aria-label="备注">
+          <button id="bdAdd">补记这一笔</button>
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<footer>
+  <button id="csv">导出 CSV</button>
+  <button id="imp">导入 CSV</button>
+  <button id="reset">清空全部记录</button>
+  <input id="file" type="file" accept=".csv,text/csv" hidden>
+  <div id="note2">记录只存在这台设备的浏览器里，不上传任何服务器。换设备或清浏览器数据会丢，定期导出 CSV 备份。</div>
+  <div id="err"></div>
+</footer>
+
+<script>
+const ROUTE=[
+ {km:0,alt:50,name:'家',note:'起点',prop:'house'},
+ {km:120,alt:20,name:'广州',badge:'一盅两件',flavor:'出了珠三角，接下来五百公里是丘陵。'},
+ {km:710,alt:150,name:'桂林',badge:'漓江倒影',flavor:'走进石灰岩的山群里。',prop:'karst'},
+ {km:1280,alt:1070,name:'贵阳',badge:'酸汤',flavor:'第一次站上一千米，从这里开始一路向上。'},
+ {km:2130,alt:500,name:'成都',note:'G318 上路',badge:'零公里',flavor:'平原到此为止。G318 从这里开始爬。',prop:'city'},
+ {km:2280,alt:620,name:'雅安',badge:'雅雨',flavor:'一年下两百天雨的城，出城就是二郎山。'},
+ {km:2480,alt:2560,name:'康定',badge:'溜溜的城',flavor:'折多河穿城而过，高原的门口。'},
+ {km:2510,alt:4298,name:'折多山口',badge:'4298',flavor:'30 公里爬 1,738 米。翻过这道垭口才算真进高原。',prop:'flags'},
+ {km:2555,alt:3460,name:'新都桥',badge:'光影走廊',flavor:'十公里的白杨和草甸，摄影的人在这里不肯走。'},
+ {km:2630,alt:2600,name:'雅江',badge:'雅砻江',flavor:'松茸从这一带的林子里长出来。'},
+ {km:2765,alt:4014,name:'理塘',badge:'世界高城',flavor:'毛垭草原，海拔四千，空气薄了。'},
+ {km:2930,alt:2580,name:'巴塘',badge:'弦子',flavor:'下到金沙江边，川藏交界。'},
+ {km:3035,alt:3870,name:'芒康',note:'进入西藏',badge:'盐井',flavor:'进西藏了。澜沧江边还有人在晒古盐田。'},
+ {km:3190,alt:3780,name:'左贡',badge:'玉曲',flavor:'沿着河谷走，这一段最容易走神。'},
+ {km:3290,alt:4120,name:'邦达',badge:'邦达草原',flavor:'全线最平也最冷的一段。'},
+ {km:3390,alt:3260,name:'八宿',badge:'七十二拐',flavor:'怒江大峡谷，一路拐到谷底。'},
+ {km:3480,alt:3960,name:'然乌',badge:'然乌湖',flavor:'冰川融水积成的湖，倒影清得不像真的。'},
+ {km:3610,alt:2750,name:'波密',badge:'米堆冰川',flavor:'藏东的桃花沟，海拔一路降下来。'},
+ {km:3700,alt:1800,name:'通麦',badge:'通麦天险',flavor:'帕隆藏布最窄的地方，也是全程最低的高原点。',prop:'trees'},
+ {km:3760,alt:3300,name:'鲁朗',badge:'石锅鸡',flavor:'云杉林里的牧场，60 公里爬回 1,500 米。'},
+ {km:3840,alt:3000,name:'林芝',badge:'南迦巴瓦',flavor:'云开的时候才露一次的山。'},
+ {km:3970,alt:3440,name:'工布江达',badge:'巴松措',flavor:'林子深处的绿湖，离拉萨不远了。'},
+ {km:4090,alt:5013,name:'米拉山口',note:'全程最高',badge:'5013',flavor:'全程最高点。过了这里，一路下坡进拉萨。',prop:'flags'},
+ {km:4240,alt:3650,name:'大昭寺',note:'终点',badge:'到了',flavor:'八廓街的转经道上。4,240 公里，走完了。',prop:'temple'}
+];
+const FULL=4240, GOAL=4240, LKEY='g318:v2', TKEY='g318:theme';
+const LUNGTA=['#2E6FA8','#F2F0E8','#C0392F','#3E8E5A','#E0A22B'];
+let state={entries:[],ack:0}, sel=null, armed=false, ready=false;
+
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const parse=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const total=()=>state.entries.reduce((s,e)=>s+e.km,0);
+const DAY=864e5;
+let flashT=null;
+function flash(msg,bad){const h=$('hint');h.textContent=msg;h.className=bad?'hint':'hint ok';
+  clearTimeout(flashT);flashT=setTimeout(()=>{h.textContent='';h.className='hint'},4500)}
+
+/* ---------- 线描图标 ---------- */
+const I={
+ flag:'<path d="M6 21V4M6 5h11l-2.6 3.5L17 12H6"/>',
+ pen:'<path d="M4 20l1-4.2L15.6 5.2a1.9 1.9 0 0 1 2.7 0l.5.5a1.9 1.9 0 0 1 0 2.7L8.2 19 4 20z"/><path d="M14 7l3 3"/>',
+ mount:'<path d="M2 20h20"/><path d="M3.5 20l5.5-9.5 3.2 5.5L14.6 13 19.5 20"/><circle cx="17.6" cy="5.8" r="2.3"/>',
+ data:'<path d="M3 20h18"/><path d="M6.5 20v-5.5M11 20v-9.5M15.5 20v-3.5M20 20v-12"/>',
+ post:'<path d="M12 21V3.5"/><path d="M12 6h7.2L21 8.3 19.2 10.6H12z"/><path d="M12 13.4H4.8L3 15.7l1.8 2.3H12z"/>',
+ seal:'<circle cx="12" cy="9.8" r="5.4"/><path d="M12 6.6l1 2 2.2.3-1.6 1.6.4 2.2-2-1.1-2 1.1.4-2.2-1.6-1.6 2.2-.3z"/><path d="M9 14.6L8.2 21.5 12 19.4l3.8 2.1L15 14.6"/>',
+ book:'<path d="M5.5 3.5h10.8a2 2 0 0 1 2 2V20.5H7.5a2 2 0 0 1-2-2z"/><path d="M5.5 17.8h12.8"/><path d="M9 7.5h6M9 11h6"/>',
+ cal:'<rect x="3.5" y="5.2" width="17" height="15.3" rx="2.2"/><path d="M3.5 9.8h17M8 3v4.2M16 3v4.2"/>',
+ foot:'<ellipse cx="8.6" cy="8.2" rx="2.7" ry="4.2"/><ellipse cx="15.4" cy="15.4" rx="2.7" ry="4.2"/>',
+ up:'<path d="M3 20h4.5l3.2-5.2h4.3L18 8.4h3"/><path d="M17.6 4.6L21 8.6l-5 .8z"/>'
+};
+const icoSVG=b=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">${b}</svg>`;
+function paintIcons(){
+  const map={icTrip:'flag',icPen:'pen',icMt:'mount',icNote:'pen',icData:'data',icPost:'post',icSeal:'seal',icBook:'book'};
+  for(const id in map){const n=$(id);if(n)n.innerHTML=icoSVG(I[map[id]])}
+  document.querySelectorAll('[data-ic]').forEach(n=>{n.innerHTML=icoSVG(I[n.dataset.ic]||I.flag)});
+}
+
+/* ---------- 主题 ---------- */
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.4M12 19v2.4M21.4 12H19M5 12H2.6M18.7 5.3l-1.7 1.7M7 17l-1.7 1.7M18.7 18.7L17 17M7 7L5.3 5.3"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>';
+function prefersDark(){try{return !!(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)}catch(e){return false}}
+function isDark(){const t=document.documentElement.dataset.theme;return t?t==='dark':prefersDark()}
+function applyTheme(t){
+  if(t)document.documentElement.dataset.theme=t;else delete document.documentElement.dataset.theme;
+  $('theme').innerHTML=isDark()?SUN:MOON;
+  if(ready)render();
+}
+$('theme').addEventListener('click',()=>{
+  const t=isDark()?'light':'dark';
+  try{localStorage.setItem(TKEY,t)}catch(e){}
+  applyTheme(t);
+});
+
+/* ---------- 路线 ---------- */
+function altAt(km){
+  if(km<=0)return ROUTE[0].alt;
+  for(let i=1;i<ROUTE.length;i++) if(km<=ROUTE[i].km){
+    const a=ROUTE[i-1],b=ROUTE[i];
+    return a.alt+(b.alt-a.alt)*(km-a.km)/(b.km-a.km);
+  }
+  return ROUTE[ROUTE.length-1].alt;
+}
+function gainAt(km){
+  let g=0;
+  for(let i=0;i<ROUTE.length-1;i++){
+    const a=ROUTE[i],b=ROUTE[i+1];
+    if(km<=a.km)break;
+    const d=b.alt-a.alt;
+    if(d>0)g+=d*Math.min(1,(km-a.km)/(b.km-a.km));
+  }
+  return g;
+}
+function weekStart(d){const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-((x.getDay()+6)%7));return x}
+
+/* ---------- 笔迹 ---------- */
+function seeded(s){let a=s>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;
+  let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function pen(pts,seed,amp){
+  const r=seeded(seed),out=[];
+  for(let i=0;i<pts.length-1;i++){
+    const a=pts[i],b=pts[i+1];
+    const dx=b[0]-a[0],dy=b[1]-a[1],len=Math.hypot(dx,dy)||1;
+    const nx=-dy/len,ny=dx/len;
+    const steps=Math.max(1,Math.min(6,Math.round(len/26)));
+    for(let s=0;s<steps;s++){
+      const t=s/steps,j=(r()-.5)*2*amp;
+      out.push([a[0]+dx*t+nx*j,a[1]+dy*t+ny*j]);
+    }
+  }
+  const L=pts[pts.length-1];
+  out.push([L[0]+(r()-.5)*amp,L[1]+(r()-.5)*amp]);
+  return 'M'+out.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L');
+}
+function penCircle(cx,cy,rad,seed){
+  const r=seeded(seed),n=14,st=r()*6.283,span=6.85;
+  let d='';
+  for(let i=0;i<=n;i++){
+    const a=st+i/n*span,rr=rad*(1+(r()-.5)*.2);
+    d+=(i?'L':'M')+(cx+Math.cos(a)*rr).toFixed(1)+' '+(cy+Math.sin(a)*rr).toFixed(1);
+  }
+  return d;
+}
+function wavePath(w,h,waves,seed){
+  const r=seeded(seed),pts=[];
+  const n=waves*10;
+  for(let i=0;i<=n;i++){
+    const t=i/n;
+    pts.push([t*w, h/2+Math.sin(t*waves*6.283)*(h/2-1)*(.8+r()*.4)]);
+  }
+  return 'M'+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L');
+}
+
+/* ---------- 沿途小景 ---------- */
+function house(x,y,k){const w=10,h=13;
+  return pen([[x-w,y],[x-w,y-h],[x+w,y-h],[x+w,y]],k,1.1)+' '+
+         pen([[x-w-4,y-h],[x,y-h-9],[x+w+4,y-h]],k+1,1.1)+' '+
+         pen([[x-4,y],[x-4,y-7],[x+2,y-7],[x+2,y]],k+2,.9)}
+function karst(x,y,k){
+  return pen([[x-19,y],[x-14,y-27],[x-11,y-29],[x-7,y-22],[x-2,y]],k,1.3)+' '+
+         pen([[x,y],[x+5,y-18],[x+8,y-20],[x+12,y-14],[x+17,y]],k+3,1.3)}
+function city(x,y,k){let d='',cx=x-20;
+  [[13,7],[20,6],[10,8]].forEach((b,i)=>{const w=b[1];
+    d+=' '+pen([[cx,y],[cx,y-b[0]],[cx+w*2,y-b[0]],[cx+w*2,y]],k+i,1);cx+=w*2+3});
+  return d.trim()}
+function trees(x,y,k){let d='';
+  [-14,0,14].forEach((o,i)=>{const cx=x+o,h=i===1?21:16,w=6;
+    d+=' '+pen([[cx-w,y],[cx,y-h],[cx+w,y]],k+i,1)+
+       ' '+pen([[cx-w*.7,y-h*.45],[cx,y-h*.86],[cx+w*.7,y-h*.45]],k+i+11,.9)});
+  return d.trim()}
+function temple(x,y,k){const w=15;
+  return pen([[x-w,y],[x-w,y-14],[x+w,y-14],[x+w,y]],k,1.1)+' '+
+         pen([[x-w-6,y-14],[x-w+2,y-23],[x+w-2,y-23],[x+w+6,y-14]],k+1,1.1)+' '+
+         pen([[x-6,y-23],[x-6,y-29],[x+6,y-29],[x+6,y-23]],k+2,.9)+' '+
+         penCircle(x,y-33,3.4,k+3)}
+
+/* ---------- 风景 ---------- */
+const W=800,H=330,PAD_T=62,PAD_B=26,MAXALT=5200,NS='http://www.w3.org/2000/svg';
+const X=km=>km/FULL*W, Y=a=>PAD_T+(1-a/MAXALT)*(H-PAD_T-PAD_B);
+let PATH_A='',PATH_B='';
+function el(tag,attrs){const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);return n}
+function drawScene(km){
+  if(!PATH_A){
+    const pts=ROUTE.map(p=>[X(p.km),Y(p.alt)]);
+    PATH_A=pen(pts,7,2.8);PATH_B=pen(pts,4211,3.4);
+  }
+  $('lineA').setAttribute('d',PATH_A);
+  $('lineB').setAttribute('d',PATH_B);
+  $('lineR').setAttribute('d',PATH_A);
+  $('earth').setAttribute('d',PATH_A+`L${W} ${H}L0 ${H}Z`);
+  $('clipRect').setAttribute('width',(X(km)+20).toFixed(1));
+
+  let d='';
+  ROUTE.forEach((p,i)=>{
+    const x=X(p.km),y=Y(p.alt),k=200+i*13;
+    if(p.prop==='house')d+=' '+house(Math.max(x+11,13),y,k);
+    else if(p.prop==='karst')d+=' '+karst(x,y,k);
+    else if(p.prop==='city')d+=' '+city(x,y,k);
+    else if(p.prop==='trees')d+=' '+trees(x,y,k);
+    else if(p.prop==='temple')d+=' '+temple(Math.min(x,W-18),y,k);
+  });
+  $('props').setAttribute('d',d.trim());
+
+  const fg=$('flags');fg.textContent='';
+  ROUTE.filter(p=>p.prop==='flags').forEach((p,fi)=>{
+    const x=X(p.km),y=Y(p.alt);
+    const x1=Math.max(6,x-46),x2=Math.min(W-6,x+46),cy=y+2,sag=30;
+    fg.appendChild(el('path',{d:`M${x1} ${cy}Q${x} ${cy+sag} ${x2} ${cy}`,fill:'none',
+      stroke:'var(--ink2)','stroke-width':'1',opacity:'.75'}));
+    for(let i=0;i<5;i++){
+      const t=.13+i*.185;
+      const bx=(1-t)*(1-t)*x1+2*(1-t)*t*x+t*t*x2;
+      const by=(1-t)*(1-t)*cy+2*(1-t)*t*(cy+sag)+t*t*cy;
+      fg.appendChild(el('path',{d:`M${(bx-4.6).toFixed(1)} ${by.toFixed(1)}L${(bx+4.6).toFixed(1)} ${by.toFixed(1)}L${bx.toFixed(1)} ${(by+11).toFixed(1)}Z`,
+        fill:LUNGTA[(i+fi)%5],stroke:'var(--ink2)','stroke-width':'.6'}));
+    }
+  });
+
+  const g=$('nodes');g.textContent='';
+  ROUTE.forEach((p,i)=>{
+    if(sel===i)g.appendChild(el('path',{d:penCircle(X(p.km),Y(p.alt),10,31+i),fill:'none',
+      stroke:'var(--ink)','stroke-width':'1.5','stroke-linecap':'round'}));
+    g.appendChild(el('circle',{cx:X(p.km),cy:Y(p.alt),r:km>=p.km?2.9:2.1,
+      fill:km>=p.km?'var(--red)':'var(--ink3)'}));
+  });
+
+  const wx=X(km),wy=Y(altAt(km)),h=17;
+  $('walker').setAttribute('d',
+    penCircle(wx,wy-h,3.1,99)+' '+pen([[wx,wy-h+3.1],[wx,wy-h*.45]],101,.7)+' '+
+    pen([[wx-4.6,wy],[wx,wy-h*.45],[wx+5.2,wy-1]],103,.8)+' '+
+    pen([[wx-5.4,wy-h*.8],[wx,wy-h*.62],[wx+5,wy-h*.84]],107,.8));
+
+  const sk=$('sky');sk.textContent='';
+  const sx=W-46,sy=30;
+  if(isDark()){
+    sk.appendChild(el('path',{d:'M'+(sx+7)+' '+(sy-9)+'a11 11 0 1 0 9 16 9 9 0 0 1-9-16z',fill:'none',
+      stroke:'var(--ink2)','stroke-width':'1.3','stroke-linejoin':'round'}));
+    [[sx-30,sy-8],[sx-16,sy+16]].forEach(s=>sk.appendChild(el('path',
+      {d:`M${s[0]} ${s[1]-4}v8M${s[0]-4} ${s[1]}h8`,stroke:'var(--ink3)','stroke-width':'1'})));
+  }else{
+    sk.appendChild(el('path',{d:penCircle(sx,sy,9,55),fill:'none',stroke:'var(--ink2)','stroke-width':'1.3'}));
+    for(let i=0;i<8;i++){const a=i/8*6.283;
+      sk.appendChild(el('path',{d:`M${(sx+Math.cos(a)*13).toFixed(1)} ${(sy+Math.sin(a)*13).toFixed(1)}L${(sx+Math.cos(a)*17.5).toFixed(1)} ${(sy+Math.sin(a)*17.5).toFixed(1)}`,
+        stroke:'var(--ink2)','stroke-width':'1.2'}));}
+  }
+}
+
+/* ---------- 进度条：素描斜纹 + 奔跑的人 ---------- */
+function capsule(x,y,w,h,seed){
+  const r=h/2,pts=[];
+  for(let i=0;i<=8;i++){const a=Math.PI*1.5+i/8*Math.PI;pts.push([x+w-r+Math.cos(a)*r,y+r+Math.sin(a)*r])}
+  pts.unshift([x+r,y]);pts.push([x+r,y+h]);
+  for(let i=0;i<=8;i++){const a=Math.PI*.5+i/8*Math.PI;pts.push([x+r+Math.cos(a)*r,y+r+Math.sin(a)*r])}
+  return pen(pts,seed,.9);
+}
+function runner(x,base,k){
+  const t=base-2;  // 脚踩在条子上沿
+  return penCircle(x+1.5,t-19,3.1,k)+' '+
+    pen([[x+1.6,t-15.8],[x-1.2,t-8]],k+1,.6)+' '+
+    pen([[x+1,t-14],[x+7.5,t-16.5]],k+2,.6)+' '+
+    pen([[x+1,t-13.4],[x-5.6,t-11]],k+3,.6)+' '+
+    pen([[x-1.2,t-8],[x+5.4,t-2],[x+6.4,t]],k+4,.6)+' '+
+    pen([[x-1.2,t-8],[x-7.4,t-5],[x-9.6,t]],k+5,.6);
+}
+function drawBar(frac){
+  const BX=6,BW=588,BY=30,BH=27,y2=BY+BH;
+  const outline=capsule(BX,BY,BW,BH,881);
+  const fw=Math.max(0,BW*frac);
+  let s=`<defs><clipPath id="capClip"><path d="${outline}"/></clipPath>`+
+        `<clipPath id="fillClip"><rect x="${BX-1}" y="${BY-3}" width="${(fw+1).toFixed(1)}" height="${BH+6}"/></clipPath></defs>`;
+  if(fw>3){
+    // 手画的斜排短线：粗细和间距都不齐
+    let h='';const r=seeded(4242);
+    for(let x=BX-BH;x<BX+fw;x+=9){
+      const w=(1.8+r()*1.3).toFixed(1),o=(r()-.5)*1.7;
+      h+=`<path d="${pen([[x+o,y2+2],[x+BH+o,BY-2]],900+Math.round(x),.7)}" stroke="var(--ink)" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
+    }
+    s+=`<g clip-path="url(#capClip)"><g clip-path="url(#fillClip)">${h}</g></g>`;
+    s+=`<path d="${pen([[BX+fw,BY+1],[BX+fw,y2-1]],777,.8)}" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" fill="none"/>`;
+  }
+  s+=`<path d="${outline}" fill="none" stroke="var(--ink)" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>`;
+  ROUTE.forEach(p=>{const x=BX+BW*(p.km/FULL);
+    s+=`<path d="M${x.toFixed(1)} ${y2+5}v${p.prop?7:4}" stroke="var(--ink3)" stroke-width="1.1" stroke-linecap="round"/>`});
+  const rx=Math.min(BX+BW-10,Math.max(BX+10,BX+fw));
+  s+=`<path d="${runner(rx,BY,610)}" fill="none" stroke="var(--red)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>`;
+  s+=`<text x="${BX}" y="${y2+24}" fill="var(--ink3)" font-size="12">家</text>`;
+  s+=`<text x="${BX+BW}" y="${y2+24}" fill="var(--ink3)" font-size="12" text-anchor="end">大昭寺</text>`;
+  $('barSvg').innerHTML=s;
+}
+
+/* ---------- 坡度 ---------- */
+function legHTML(i){
+  const a=ROUTE[i],b=ROUTE[i+1];
+  const dk=b.km-a.km,da=b.alt-a.alt,gr=da/(dk*1000)*100;
+  let inc,kind;
+  if(gr>=0.25){inc=Math.min(8,Math.max(1,Math.round(gr*2)/2))+'%';kind='上坡'}
+  else if(gr<=-0.25){inc='0';kind='下坡'}
+  else{inc='1%';kind='平路（1% 模拟平地）'}
+  const climb=da>=0?`爬升 ${fmt(da)} m`:`下降 ${fmt(-da)} m`;
+  return `<div class="leg"><div>${esc(a.name)} → ${esc(b.name)}</div>
+    <div class="w">${fmt(dk)} km · ${climb} · 平均 ${gr>=0?'+':'−'}${Math.abs(gr).toFixed(2)}%</div>
+    <div class="rec">建议坡度 <em>${inc}</em> · ${kind}</div></div>`;
+}
+function renderDetail(){
+  const box=$('detail');
+  if(sel===null){box.innerHTML='';return}
+  const p=ROUTE[sel];
+  box.innerHTML=`<div class="detail"><div class="hd"><b>${esc(p.name)}</b>
+    <span>${fmt(p.km)} km · 海拔 ${fmt(p.alt)} m</span>
+    <div class="nav">
+      <button id="pv"${sel===0?' disabled':''} aria-label="上一个点">‹</button>
+      <button id="nx"${sel===ROUTE.length-1?' disabled':''} aria-label="下一个点">›</button>
+      <button id="cl" aria-label="关闭">×</button>
+    </div></div>
+    ${sel>0?legHTML(sel-1):''}${sel<ROUTE.length-1?legHTML(sel):''}</div>`;
+  if($('pv'))$('pv').onclick=()=>select(sel-1);
+  if($('nx'))$('nx').onclick=()=>select(sel+1);
+  $('cl').onclick=()=>select(null);
+}
+function select(i,scroll){
+  sel=(i===null||i<0||i>=ROUTE.length)?null:i;
+  drawScene(Math.min(total(),FULL));renderDetail();
+  if(scroll&&sel!==null)$('chart').scrollIntoView({behavior:'smooth',block:'center'});
+}
+$('chart').addEventListener('click',e=>{
+  const r=e.currentTarget.getBoundingClientRect();
+  const km=(e.clientX-r.left)/r.width*FULL;
+  let best=0,bd=Infinity;
+  ROUTE.forEach((p,i)=>{const d=Math.abs(p.km-km);if(d<bd){bd=d;best=i}});
+  select(best);
+});
+document.addEventListener('keydown',e=>{
+  if(sel===null||/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName))return;
+  if(e.key==='ArrowLeft'&&sel>0){e.preventDefault();select(sel-1)}
+  if(e.key==='ArrowRight'&&sel<ROUTE.length-1){e.preventDefault();select(sel+1)}
+  if(e.key==='Escape')select(null);
+});
+
+/* ---------- 渲染 ---------- */
+function render(){
+  const t=total(),cap=Math.min(t,FULL);
+  $('totalKm').textContent=t%1?t.toFixed(1):fmt(t);
+  $('pct').textContent=(t/GOAL*100).toFixed(1)+'%';
+  drawBar(Math.min(1,t/GOAL));
+  drawScene(cap);
+
+  let passed=ROUTE[0],next=null;
+  for(const p of ROUTE){if(cap>=p.km)passed=p;else{next=p;break}}
+  $('here').innerHTML=next?`刚过 <b>${esc(passed.name)}</b> · 距 ${esc(next.name)} 还有 ${fmt(next.km-cap)} 公里`
+    :`<b>到了大昭寺。</b>转经道上见。`;
+  const rem=GOAL-t;
+  $('leftTxt').innerHTML=rem>0?`距终点还有 <b>${fmt(rem)}</b> 公里 · 已完成 ${(t/GOAL*100).toFixed(1)}%`
+    :`走完了，多出 <b>${fmt(t-GOAL)}</b> 公里`;
+
+  const ws=weekStart(new Date()).getTime();
+  const thisWk=state.entries.filter(e=>parse(e.date).getTime()>=ws).reduce((s,e)=>s+e.km,0);
+  const lastWk=state.entries.filter(e=>{const d=parse(e.date).getTime();return d>=ws-7*DAY&&d<ws}).reduce((s,e)=>s+e.km,0);
+  $('wk').innerHTML=`本周 <b>${thisWk.toFixed(1)}</b> 公里`+(lastWk?` · 上周 ${lastWk.toFixed(1)}`:'');
+
+  const n=state.entries.length;
+  const days=n?Math.max(1,Math.round((new Date().setHours(0,0,0,0)-parse(state.entries.map(e=>e.date).sort()[0]).getTime())/DAY)+1):0;
+  const perDay=days?t/days:0;
+  $('sAlt').innerHTML=fmt(altAt(cap))+'<small>m</small>';
+  $('sGain').innerHTML=fmt(gainAt(cap))+'<small>m</small>';
+  $('sPer').innerHTML=n?(t/n).toFixed(1)+'<small>km</small>':'—';
+  $('sPace').innerHTML=n?(perDay*7).toFixed(1)+'<small>km/周</small>':'—';
+  $('sCnt').innerHTML=n?`${n}<small>次 / ${days}天</small>`:'—';
+  const eta=$('sEta');
+  if(n>=6&&days>=21&&rem>0){
+    const d=new Date();d.setDate(d.getDate()+Math.ceil(rem/perDay));
+    eta.className='';eta.textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}`;
+  }else if(rem<=0){eta.className='';eta.textContent='已抵达'}
+  else{eta.className='soft';eta.textContent='还需更多记录'}
+
+  $('bars').innerHTML=Array.from({length:8},(_,i)=>{
+    const s=ws-(7-i)*7*DAY;
+    return state.entries.filter(e=>{const d=parse(e.date).getTime();return d>=s&&d<s+7*DAY}).reduce((a,e)=>a+e.km,0);
+  }).map((v,i,arr)=>{
+    const mx=Math.max(...arr,1);
+    return `<i class="${i===7?'cur':''}" style="height:${Math.max(2,v/mx*100)}%" title="${v.toFixed(1)} km"></i>`;
+  }).join('');
+
+  const doneCt=ROUTE.filter(p=>cap>=p.km).length;
+  $('ctStops').textContent=`${doneCt} / ${ROUTE.length}`;
+  $('stops').innerHTML=ROUTE.map((p,i)=>{
+    const done=cap>=p.km,now=p===passed;
+    const tag=now&&p.km<FULL?'<small>你在这</small>':(p.note?`<small>${esc(p.note)}</small>`:'');
+    return `<button class="stop${done?' done':''}${now?' now':''}" data-i="${i}">
+      <span class="dot"></span><span class="nm">${esc(p.name)}${tag}</span><span class="km">${fmt(p.km)}</span></button>`;
+  }).join('');
+
+  const B=ROUTE.filter(p=>p.badge);
+  $('ctBadges').textContent=`${B.filter(p=>cap>=p.km).length} / ${B.length}`;
+  const gotB=B.filter(p=>cap>=p.km).reverse();
+  $('badges').innerHTML=gotB.length?gotB.map(p=>`<div class="bgi"><b>${esc(p.badge)}</b>
+      <span>${esc(p.flavor)}</span><span class="k">${fmt(p.km)} km</span></div>`).join('')
+    :'<div class="empty" style="padding:0 2px">还没有徽章。走到第一个站点就会弹出来。</div>';
+
+  $('ctLog').textContent=n?`${n} 次`:'';
+  const es=[...state.entries].sort((a,b)=>a.date<b.date?1:-1).slice(0,40);
+  $('entries').innerHTML=es.length?es.map(e=>`<div class="row">
+      <span class="d">${e.date.slice(5).replace('-','.')}</span>
+      <span class="k">${e.km} km</span><button data-del="${e.id}">删除</button>
+      ${e.note?`<span class="nt">${esc(e.note)}</span>`:''}</div>`).join('')
+    :'<div class="empty">还没有记录。走完第一次，从家出发。</div>';
+}
+
+/* ---------- 徽章 ---------- */
+function checkBadges(){
+  const t=Math.min(total(),FULL),ack=state.ack;
+  const got=ROUTE.filter(p=>p.badge&&p.km>ack&&p.km<=t);
+  state.ack=t;
+  return got.length?got[got.length-1]:null;
+}
+function popup(p){
+  const rem=GOAL-total();
+  const txt=`我在跑步机上走到了${p.name}「${p.badge}」，距家 ${fmt(p.km)} 公里。G318，还剩 ${fmt(Math.max(0,rem))} 公里到拉萨。`;
+  const v=document.createElement('div');
+  v.className='veil';
+  v.innerHTML=`<div class="card" role="dialog" aria-modal="true">
+    <h3>${esc(p.badge)}</h3>
+    <div class="place">${esc(p.name)} · ${fmt(p.km)} km · 海拔 ${fmt(p.alt)} m</div>
+    <p>${esc(p.flavor)}</p>
+    <div class="acts"><button id="shareBtn">分享</button><button id="closeBtn">继续</button></div>
+    <div class="copied" id="copied"></div></div>`;
+  document.body.appendChild(v);
+  const close=()=>v.remove();
+  v.querySelector('#closeBtn').onclick=close;
+  v.addEventListener('click',e=>{if(e.target===v)close()});
+  v.querySelector('#shareBtn').onclick=async()=>{
+    try{
+      if(navigator.share){await navigator.share({text:txt});return}
+      await navigator.clipboard.writeText(txt);
+      $('copied').textContent='已复制到剪贴板';
+    }catch(err){$('copied').textContent=txt}
+  };
+  v.querySelector('#closeBtn').focus();
+}
+
+/* ---------- 存储：只用本机 ---------- */
+let canStore=true;
+function saveLocal(){
+  try{localStorage.setItem(LKEY,JSON.stringify(state))}
+  catch(e){canStore=false;$('err').textContent='这个浏览器不让本地文件保存记录（常见于用 Chrome 直接打开 html）。记录在本次打开期间有效，离开前请导出 CSV。'}
+}
+function loadLocal(){
+  try{const r=localStorage.getItem(LKEY);if(r)state=Object.assign({entries:[],ack:0},JSON.parse(r))}
+  catch(e){canStore=false}
+}
+function commit(){saveLocal();render()}
+
+/* ---------- 交互 ---------- */
+function addEntry(km,date,note){
+  state.entries=state.entries.concat([{
+    id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    date,km:Math.round(km*10)/10,note:(note||'').trim()||undefined}]);
+  const earned=checkBadges();
+  commit();if(earned)popup(earned);
+  flash(`已记录 ${km.toFixed(1)} 公里 · 累计 ${fmt(total())}`);
+}
+$('add').addEventListener('click',()=>{
+  const v=parseFloat($('km').value);
+  if(!(v>0)){flash('输入一个公里数，比如 6.5',1);$('km').focus();return}
+  addEntry(v,iso(new Date()),$('note').value);
+  $('km').value='';$('note').value='';
+});
+$('km').addEventListener('keydown',e=>{if(e.key==='Enter')$('add').click()});
+$('note').addEventListener('keydown',e=>{if(e.key==='Enter')$('add').click()});
+$('bdToggle').addEventListener('click',()=>{
+  const f=$('bdForm'),open=f.hidden;
+  f.hidden=!open;
+  $('bdLabel').textContent=open?'收起补记':'补记其他日期';
+  if(open&&!$('bdDate').value)$('bdDate').value=iso(new Date());
+});
+$('bdAdd').addEventListener('click',()=>{
+  const v=parseFloat($('bdKm').value),d=$('bdDate').value;
+  if(!(v>0)||!d){flash('补记需要日期和公里数',1);return}
+  addEntry(v,d,$('bdNote').value);
+  $('bdKm').value='';$('bdNote').value='';
+});
+$('entries').addEventListener('click',e=>{
+  const id=e.target.dataset&&e.target.dataset.del;if(!id)return;
+  state.entries=state.entries.filter(x=>x.id!==id);
+  state.ack=Math.min(state.ack,Math.min(total(),FULL));
+  commit();
+});
+$('stops').addEventListener('click',e=>{
+  const b=e.target.closest('.stop');if(!b)return;
+  select(+b.dataset.i,true);
+});
+
+/* CSV 进出 */
+const q=s=>'"'+String(s||'').replace(/"/g,'""')+'"';
+function toCSV(){
+  const rows=[...state.entries].sort((a,b)=>a.date<b.date?-1:1);let c=0;
+  return '\ufeff日期,公里,累计公里,备注\n'+
+    rows.map(r=>{c+=r.km;return `${r.date},${r.km},${c.toFixed(1)},${q(r.note)}`}).join('\n')+'\n';
+}
+function parseCSV(txt){
+  const out=[],lines=txt.replace(/^\ufeff/,'').split(/\r?\n/);
+  for(let i=0;i<lines.length;i++){
+    const ln=lines[i];if(!ln.trim())continue;
+    const f=[];let cur='',inq=false;
+    for(let j=0;j<ln.length;j++){
+      const ch=ln[j];
+      if(inq){ if(ch==='"'){ if(ln[j+1]==='"'){cur+='"';j++} else inq=false } else cur+=ch }
+      else if(ch==='"')inq=true;
+      else if(ch===','){f.push(cur);cur=''}
+      else cur+=ch;
+    }
+    f.push(cur);
+    const date=(f[0]||'').trim(),km=parseFloat(f[1]);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!(km>0))continue;   // 表头和坏行自动跳过
+    out.push({date,km:Math.round(km*10)/10,note:(f[3]||'').trim()||undefined});
+  }
+  return out;
+}
+$('csv').addEventListener('click',()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([toCSV()],{type:'text/csv;charset=utf-8'}));
+  a.download='g318-'+iso(new Date())+'.csv';a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+});
+$('imp').addEventListener('click',()=>$('file').click());
+$('file').addEventListener('change',e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    let rows=[];
+    try{rows=parseCSV(String(rd.result))}catch(err){flash('这个文件读不出来',1);return}
+    if(!rows.length){flash('没读到有效记录（需要 日期,公里 两列）',1);return}
+    const have=new Set(state.entries.map(x=>x.date+'|'+x.km));
+    const add=rows.filter(r=>!have.has(r.date+'|'+r.km)).map(r=>Object.assign({
+      id:Date.now().toString(36)+Math.random().toString(36).slice(2,6)},r));
+    state.entries=state.entries.concat(add);
+    state.ack=Math.min(total(),FULL);
+    commit();
+    flash(`导入 ${add.length} 条，跳过重复 ${rows.length-add.length} 条`);
+  };
+  rd.readAsText(f);e.target.value='';
+});
+$('reset').addEventListener('click',()=>{
+  if(!armed){armed=true;$('reset').textContent='再点一次，全部清空';$('reset').classList.add('arm');
+    setTimeout(()=>{armed=false;$('reset').textContent='清空全部记录';$('reset').classList.remove('arm')},4000);return}
+  armed=false;$('reset').textContent='清空全部记录';$('reset').classList.remove('arm');
+  state={entries:[],ack:0};commit();
+});
+
+/* ---------- 启动 ---------- */
+paintIcons();
+$('wv1').setAttribute('d',wavePath(600,9,11,21));
+$('wv2').setAttribute('d',wavePath(600,9,11,22));
+$('wv3').setAttribute('d',wavePath(600,9,11,23));
+$('sq1').setAttribute('d',wavePath(210,12,3.2,31));
+let savedTheme=null;try{savedTheme=localStorage.getItem(TKEY)}catch(e){}
+applyTheme(savedTheme);
+try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{
+  if(!document.documentElement.dataset.theme)applyTheme(null);
+})}catch(e){}
+loadLocal();render();ready=true;
+if('serviceWorker' in navigator)
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
