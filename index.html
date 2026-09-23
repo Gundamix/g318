@@ -51,7 +51,7 @@
   .ic{width:1em;height:1em;flex:none}
   .doodle{position:absolute;color:var(--ink3);opacity:.55;pointer-events:none;z-index:0}
   #clip{top:-6px;left:4px;width:32px;transform:rotate(-11deg)}
-  #stupa{bottom:4px;right:6px;width:42px;opacity:.42}
+  #stupa{bottom:4px;left:50%;margin-left:-21px;width:42px;opacity:.42}
   #rose{bottom:6px;left:4px;width:40px;opacity:.3;transform:rotate(-7deg)}
 
   .topbar{display:flex;justify-content:flex-end;padding-bottom:2px;position:relative;z-index:1}
@@ -60,7 +60,14 @@
 
   /* 区块标题 */
   .sec{position:relative;margin-top:30px}
-  .gap{display:block;width:100%;height:34px;overflow:hidden;color:var(--ink3);opacity:.5;margin:6px 0 0}
+  .vig{display:block;height:auto;overflow:visible;color:var(--ink2);opacity:.66;margin:14px 0 0}
+  .vig.l{margin-left:3%}
+  .vig.r{margin-left:auto;margin-right:2%}
+  .vig.c{margin-left:auto;margin-right:auto}
+  #vig1{width:186px} #vig2{width:170px} #vig3{width:190px}
+  #plane{width:150px;height:auto;overflow:visible;color:var(--ink3);opacity:.75;margin:2px auto 0 46px}
+  #pack{position:absolute;right:2px;bottom:-10px;width:34px;color:var(--ink3);opacity:.7;pointer-events:none}
+  #pot{width:46px;height:auto;margin-left:auto;color:var(--ink3);opacity:.7;flex:none}
   .sec:first-of-type{margin-top:6px}
   .sechd{display:flex;align-items:center;gap:9px;position:relative;padding-bottom:3px}
   .sechd .ic{font-size:21px;color:var(--ink2);position:relative;z-index:1}
@@ -69,9 +76,6 @@
   .sechd .crest{margin-left:auto;display:flex;gap:9px;align-items:center;flex:none}
   .sechd .crest svg{width:31px;height:29px;display:block;color:var(--ink2);opacity:.85}
   .sechd .crest span{position:relative;line-height:0}
-  .sechd .crest span::after{content:attr(data-p);position:absolute;left:50%;top:100%;
-    transform:translateX(-50%);font-family:var(--sans);font-size:9px;color:var(--ink3);
-    letter-spacing:0;white-space:nowrap}
   .sechd .dd{margin-left:auto;color:var(--ink3);opacity:.7;flex:none;line-height:0}
   .sechd .dd svg{width:34px;height:30px;display:block}
   .sechd .ct{margin-left:auto;font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
@@ -239,7 +243,7 @@
 <svg class="doodle" id="rose" viewBox="0 0 42 42" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="21" cy="21" r="15"/><path d="M21 4v5M21 33v5M4 21h5M33 21h5"/><path d="M21 8l4.4 8.6L34 21l-8.6 4.4L21 34l-4.4-8.6L8 21l8.6-4.4z"/></svg>
 <svg class="doodle" id="stupa" viewBox="0 0 40 46" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 44h28M10 44v-7h20v7M13 37v-6h14v6M20 31a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M16 15l4-7 4 7M20 8V3"/><path d="M12 41h4M18 41h4M24 41h4M14 39.5h2M20 39.5h2M26 39.5h2"/></svg>
 
-<div class="topbar"><button id="theme" aria-label="切换深浅色"></button></div>
+<div class="topbar"><svg id="plane" viewBox="0 0 162 34" aria-hidden="true"></svg><button id="theme" aria-label="切换深浅色"></button></div>
 
 <section class="sec">
   <div class="sechd"><span class="ic" id="icTrip"></span><h2>旅途进度</h2><span class="crest" id="crest"></span></div>
@@ -250,9 +254,10 @@
 
   <div class="bar"><svg id="barSvg" viewBox="0 0 600 88" aria-hidden="true"></svg></div>
   <div class="here" id="here">读取记录中…</div>
+  <svg id="pack" viewBox="0 0 38 42" aria-hidden="true"></svg>
 </section>
 
-<svg class="gap" viewBox="0 0 600 34" preserveAspectRatio="none" aria-hidden="true"><path id="gp1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+<svg class="vig l" id="vig1" viewBox="0 0 176 64" aria-hidden="true"></svg>
 <section class="sec">
   <div class="sechd"><span class="ic" id="icPen"></span><h2>记一笔</h2><span class="dd" data-dd="shoe"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -266,7 +271,7 @@
   </div>
 </section>
 
-<svg class="gap" viewBox="0 0 600 34" preserveAspectRatio="none" aria-hidden="true"><path id="gp2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+<svg class="vig r" id="vig2" viewBox="0 0 170 52" aria-hidden="true"></svg>
 <section class="sec">
   <div class="sechd"><span class="ic" id="icMt"></span><h2>海拔剖面</h2><span class="dd" data-dd="cloud"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -292,7 +297,7 @@
   <div id="detail"></div>
 </section>
 
-<svg class="gap" viewBox="0 0 600 34" preserveAspectRatio="none" aria-hidden="true"><path id="gp3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+<svg class="vig c" id="vig3" viewBox="0 0 196 60" aria-hidden="true"></svg>
 <div class="drawers">
   <details>
     <summary><span class="cv">▶</span><span class="ic" id="icData"></span>数据</summary>
@@ -342,6 +347,7 @@
   <button id="csv">导出 CSV</button>
   <button id="imp">导入 CSV</button>
   <button id="reset">清空全部记录</button>
+  <svg id="pot" viewBox="0 0 54 58" aria-hidden="true"></svg>
   <input id="file" type="file" accept=".csv,text/csv" hidden>
   <div id="err"></div>
 </footer>
@@ -513,31 +519,90 @@ function snake(x,y,len,seed,amp,vert){
   }
   return d;
 }
-function tilde(x,y,w,seed){
-  const r=seeded(seed);let d=`M${x.toFixed(1)} ${y.toFixed(1)}`;
-  for(let i=1;i<=4;i++){
-    const px=x+w*i/4, py=y+(i%2?-1:1)*(1.6+r()*.9), cx=x+w*(i-.5)/4;
-    d+=`Q${cx.toFixed(1)} ${(py+(i%2?-2.4:2.4)).toFixed(1)} ${px.toFixed(1)} ${py.toFixed(1)}`;
+function spiral(cx,cy,r,turns,seed){
+  const rd=seeded(seed),pts=[],n=turns*18;
+  for(let i=0;i<=n;i++){const t=i/n,a=t*turns*6.283,rr=r*(1-t*.92)*(.95+rd()*.1);
+    pts.push([cx+Math.cos(a)*rr,cy+Math.sin(a)*rr]);}
+  return 'M'+pts.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join('L');
+}
+function cloudBubble(cx,cy,rx,ry,seed){
+  const r=seeded(seed),n=9;let d='';
+  for(let i=0;i<n;i++){
+    const a0=i/n*6.283,a1=(i+1)/n*6.283,am=(a0+a1)/2,bg=1.3+r()*.14;
+    const x0=cx+Math.cos(a0)*rx,y0=cy+Math.sin(a0)*ry,x1=cx+Math.cos(a1)*rx,y1=cy+Math.sin(a1)*ry;
+    d+=(i?'':`M${x0.toFixed(1)} ${y0.toFixed(1)}`)+
+       `Q${(cx+Math.cos(am)*rx*bg).toFixed(1)} ${(cy+Math.sin(am)*ry*bg).toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`;
   }
   return d;
 }
-function gapArt(seed,ring){
-  const r=seeded(seed),LO=5,HI=29,cl=v=>Math.max(LO,Math.min(HI,v));
-  const y0=12+r()*8, x0=30+r()*90, len=280+r()*200, pts=[];
-  for(let i=0;i<=18;i++){                    // 一条几乎是直线的长弧
-    const t=i/18;
-    pts.push([x0+len*t, cl(y0+Math.sin(t*2.6+1)*4.5+(r()-.5)*1.4)]);
-  }
-  let d='M'+pts.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join('L');
-  for(let i=0,n=2+Math.floor(r()*2);i<n;i++)
-    d+=' '+tilde(40+r()*480, cl(10+r()*14), 15+r()*9, seed+i*37);
-  if(ring){                                  // 角上一枚打了排线的小圆
-    const cx=548,cy=17;
-    d+=' '+penCircle(cx,cy,8.5,seed+91);
-    for(let i=-2;i<=2;i++) d+=` M${(cx-6+i*3).toFixed(1)} ${(cy+6).toFixed(1)}L${(cx+i*3).toFixed(1)} ${(cy-6).toFixed(1)}`;
-    d+=` M${cx-20} ${cy-9}l6 5M${cx-14} ${cy-4}l-1-4M${cx-14} ${cy-4}l4-1`;
-  }
-  return d;
+const P=(d,w,extra)=>`<path d="${d}" fill="none" stroke="currentColor" stroke-width="${w||1.35}" stroke-linecap="round" stroke-linejoin="round"${extra||''}/>`;
+function drawVignettes(){
+  // 跑步机 + 思考泡泡里的雪山
+  let t='';
+  t+=pen([[12,56],[112,56]],11,.6)+' '+pen([[16,50],[108,50]],12,.6);
+  t+=' '+penCircle(16,53,3.2,13)+' '+penCircle(108,53,3.2,14);
+  t+=' '+pen([[108,50],[117,20]],15,.6)+' '+pen([[117,20],[97,25]],16,.6);
+  t+=' '+pen([[12,56],[8,62]],18,.4)+' '+pen([[112,56],[116,62]],19,.4);
+  const x=64,b=50;
+  t+=' '+penCircle(x+1,b-31,4,20)+' '+pen([[x+1,b-27],[x-1,b-13]],21,.5);
+  t+=' '+pen([[x-1,b-13],[x+7,b]],22,.5)+' '+pen([[x-1,b-13],[x-7,b-1]],23,.5);
+  t+=' '+pen([[x,b-23],[x+9,b-17]],24,.5)+' '+pen([[x,b-23],[x-8,b-18]],25,.5);
+  t+=' '+penCircle(78,15,1.5,26)+' '+penCircle(90,11,2.2,27)+' '+penCircle(104,10,2.9,28);
+  t+=' '+cloudBubble(146,20,20,12.5,29);
+  t+=' '+pen([[133,28],[142,13],[147,20],[151,15],[159,28]],30,.5);
+  t+=' '+pen([[142,13],[142,6]],31,.3);
+  $('vig1').innerHTML=P(t)+P(pen([[142,6],[150,8],[142,10.4]],32,.2),1.1,' fill="var(--red)" fill-opacity=".85"');
+
+  // 背着经幡的蜗牛，身后一串黏液
+  let sn='';
+  for(let i=0;i<8;i++)sn+=` M${(12+i*9).toFixed(1)} 47.5h4`;
+  sn+=' '+pen([[80,47],[150,47]],41,.5)+' '+pen([[150,47],[159,43],[160,37],[155,34],[149,38],[146,44]],42,.5);
+  sn+=' '+pen([[155,35],[160,24]],43,.4)+' '+penCircle(160.5,22.6,1.7,44);
+  sn+=' '+pen([[151,36],[151,25]],45,.4)+' '+penCircle(151,23.6,1.7,46);
+  sn+=' '+spiral(112,30,16.5,2.6,47);
+  sn+=' '+pen([[114,14],[117,2]],48,.3);
+  $('vig2').innerHTML=P(sn)+P(pen([[117,2],[130,5],[117,9]],49,.3),1.1,' fill="#E0A22B" fill-opacity=".9"');
+
+  // 低头赶路的牦牛，身后一串蹄印
+  let yk='';
+  [[10,51],[20,47],[31,52],[42,48],[54,51],[66,47]].forEach((f,i)=>{
+    yk+=' '+penCircle(f[0],f[1],1.6,60+i)+' '+penCircle(f[0]+3.2,f[1],1.6,70+i)});
+  yk+=' '+pen([[88,37],[86,27],[92,21],[112,19],[134,14],[148,16],[158,22],[160,31]],81,.7);
+  yk+=' '+pen([[88,37],[158,36]],82,.5);
+  const hr=seeded(820);
+  for(let i=0;i<13;i++){const fx=90+i*5.4+hr()*1.5,ln=4+hr()*5.5;
+    yk+=' '+pen([[fx,37],[fx+(hr()-.5)*1.8,37+ln]],830+i,.25)}
+  [97,107,141,151].forEach((lx,i)=>{yk+=' '+pen([[lx,40],[lx+(i%2?1:-1),54]],860+i,.35)});
+  yk+=' '+pen([[158,22],[168,26],[175,34],[171,41],[162,38],[160,31]],90,.5);
+  yk+=' '+pen([[164,24],[159,16],[165,11]],91,.4)+' '+pen([[170,27],[175,19],[181,17]],92,.4);
+  yk+=' '+pen([[88,25],[81,32]],93,.3);
+  for(let i=0;i<4;i++)yk+=' '+pen([[81,32],[77+i*1.6,39+i*.4]],940+i,.2);
+  $('vig3').innerHTML=P(yk)+`<circle cx="168.5" cy="30" r="1.3" fill="currentColor"/>`;
+
+  // 绕了个圈的纸飞机
+  $('plane').innerHTML=
+    P('M4 26C38 31 58 4 72 14S62 32 61 20 104 6 134 13',1.2,' stroke-dasharray="3 4.5"')+
+    P(pen([[134,6],[158,12],[134,18],[140,12],[134,6]],51,.4))+P('M140 12L158 12M140 12l2 8',1.2);
+
+  // 背包
+  $('pack').innerHTML=P(pen([[9,17],[29,17],[32,40],[6,40],[9,17]],55,.4))+
+    P(pen([[9,19],[29,19],[28,28],[10,28]],56,.3))+P('M17 25h4v5h-4z',1.1)+
+    P(pen([[9,8],[29,8]],57,.2)+' '+pen([[9,15],[29,15]],58,.2)+' '+
+      penCircle(9,11.5,3.5,59)+' '+penCircle(29,11.5,3.5,60)+' '+pen([[19,6.5],[19,17]],61,.2))+
+    P(pen([[29,30],[33.5,30],[33.5,38],[29.5,38]],62,.3));
+
+  // 冒热气的酥油茶壶
+  $('pot').innerHTML=P(pen([[12,52],[9,38],[14,29],[36,29],[41,38],[38,52],[12,52]],61,.4))+
+    P(pen([[16,29],[18,23],[32,23],[34,29]],62,.3))+P(penCircle(25,20,2.2,63))+
+    P(pen([[40,35],[48,26],[51,21]],64,.3))+P(pen([[11,33],[4,35],[4,44],[10,46]],65,.3))+
+    P('M19 15c-3-3 3-5 0-8s3-5 0-7M26 14c-3-3 3-5 0-8M33 15c-3-3 3-5 0-8',1.1);
+}
+function doubleRule(seed){return pen([[0,3],[600,3.6]],seed,.7)+' '+pen([[10,7.2],[430,6.6]],seed+1,.7)}
+function trailRule(seed){
+  const r=seeded(seed);let d='',x=0;
+  while(x<590){const L=12+r()*20;d+=` M${x.toFixed(1)} ${(4.5+(r()-.5)*1.6).toFixed(1)}L${Math.min(600,x+L).toFixed(1)} ${(4.5+(r()-.5)*1.6).toFixed(1)}`;
+    x+=L+6+r()*8;if(r()<.25){d+=` M${(x-3).toFixed(1)} 4.5h.4`;}}
+  return d.trim();
 }
 function wavePath(w,h,waves,seed){
   const r=seeded(seed),pts=[];
@@ -987,12 +1052,10 @@ $('reset').addEventListener('click',()=>{
 /* ---------- 启动 ---------- */
 paintIcons();
 $('wv1').setAttribute('d',wavePath(600,9,11,21));
-$('wv2').setAttribute('d',wavePath(600,9,11,22));
-$('wv3').setAttribute('d',wavePath(600,9,11,23));
+$('wv2').setAttribute('d',doubleRule(22));
+$('wv3').setAttribute('d',trailRule(23));
 $('sq1').setAttribute('d',wavePath(210,12,3.2,31));
-$('gp1').setAttribute('d',gapArt(501));
-$('gp2').setAttribute('d',gapArt(777,1));
-$('gp3').setAttribute('d',gapArt(912));
+drawVignettes();
 let savedTheme=null;try{savedTheme=localStorage.getItem(TKEY)}catch(e){}
 applyTheme(savedTheme);
 try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{
