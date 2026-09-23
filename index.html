@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#14171A" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="true">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Ma+Shan+Zheng&display=swap">
+<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Ma+Shan+Zheng&display=swap">
 <style>
   :root{
     color-scheme:light;
@@ -73,8 +73,8 @@
   .sechd .ic{font-size:21px;color:var(--ink2);position:relative;z-index:1}
   .sechd h2{font-family:var(--brush);font-size:27px;font-weight:400;letter-spacing:.05em;
     line-height:1.2;position:relative;z-index:1}
-  .sechd .crest{margin-left:auto;display:flex;gap:9px;align-items:center;flex:none}
-  .sechd .crest svg{width:31px;height:29px;display:block;color:var(--ink2);opacity:.85}
+  .sechd .crest{margin-left:auto;display:flex;gap:6px;align-items:center;flex:none}
+  .sechd .crest svg{width:27px;height:25px;display:block;color:var(--ink2);opacity:.85}
   .sechd .crest span{position:relative;line-height:0}
   .sechd .dd{margin-left:auto;color:var(--ink3);opacity:.7;flex:none;line-height:0}
   .sechd .dd svg{width:34px;height:30px;display:block}
@@ -158,6 +158,7 @@
   .grid dd small{font-family:var(--sans);font-size:11px;font-weight:400;color:var(--ink2);padding-left:3px}
   .grid dd.soft{font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);line-height:1.5}
   @media (max-width:380px){.grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:400px){.sechd .crest{gap:3px}.sechd .crest svg{width:22px;height:21px}}
   .bars{display:flex;align-items:flex-end;gap:5px;height:48px;padding-top:22px}
   .bars i{flex:1;min-height:2px;background:var(--rule);border-radius:2px 2px 0 0}
   .bars i.cur{background:var(--red)}
@@ -208,6 +209,35 @@
     border-radius:5px 12px 6px 11px/11px 6px 12px 5px}
   #bdForm[hidden]{display:none}
 
+  /* 备份提醒 */
+  #backup{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 4px;padding:9px 13px;
+    font-size:12.5px;color:var(--ink2);border:1.4px dashed var(--red);
+    border-radius:13px 5px 12px 6px/6px 12px 5px 13px}
+  #backup[hidden]{display:none}
+  #backup b{color:var(--red);font-weight:600}
+  #backup button{background:none;border:0;font:inherit;font-size:12.5px;cursor:pointer;padding:2px 0;
+    text-decoration:underline;text-underline-offset:3px;color:var(--ink)}
+  #backup button.later{color:var(--ink3);margin-left:auto}
+  /* 底部浮条：撤销、确认 */
+  .toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+    z-index:2147482000;background:var(--ink);color:var(--paper);font-size:13.5px;
+    display:flex;align-items:center;gap:14px;padding:11px 16px;max-width:calc(100% - 32px);
+    border-radius:14px 5px 13px 6px/6px 13px 5px 14px;animation:rise .22s ease-out}
+  .toast button{background:none;border:0;color:var(--paper);font:inherit;font-weight:700;cursor:pointer;
+    padding:2px 0;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+  @keyframes rise{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+  /* 编辑一条记录 */
+  .row.editing{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:11px 0}
+  .row.editing input{background:transparent;border:1.2px solid var(--rule);color:var(--ink);font:inherit;
+    font-size:13px;padding:7px 9px;border-radius:9px 4px 8px 5px/5px 8px 4px 9px;min-width:0}
+  .row.editing .en{grid-column:1/-1}
+  .row.editing .acts{grid-column:1/-1;display:flex;gap:16px;justify-content:flex-end}
+  .row.editing .acts button{font-size:13px;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+  .row.editing .acts .sv{color:var(--red);font-weight:600}
+  /* 点阵日历 */
+  .cal{margin-top:22px}
+  .cal svg{display:block;width:100%;height:auto;overflow:visible}
+  .cal .cap{font-size:11px;color:var(--ink3);padding-top:6px;display:flex;justify-content:space-between}
   footer{padding-top:26px;font-size:12.5px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
     position:relative}
   footer button{background:none;border:0;color:var(--ink3);font:inherit;font-size:12.5px;
@@ -245,6 +275,7 @@
 
 <div class="topbar"><svg id="plane" viewBox="0 0 162 34" aria-hidden="true"></svg><button id="theme" aria-label="切换深浅色"></button></div>
 
+<div id="backup" hidden><span id="backupTxt"></span><button id="backupGo">导出 CSV</button><button class="later" id="backupLater">过几天再说</button></div>
 <section class="sec">
   <div class="sechd"><span class="ic" id="icTrip"></span><h2>旅途进度</h2><span class="crest" id="crest"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv1" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -282,7 +313,7 @@
       <path id="earth" fill="var(--earth)" stroke="none"/>
       <g id="hatchG" clip-path="url(#earthClip)" stroke="var(--ink)" stroke-width=".85"
          stroke-linecap="round" fill="none" opacity=".17"></g>
-      <g id="props" fill="none" stroke="var(--ink)" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"></g>
+      <path id="props" fill="none" stroke="var(--ink)" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
       <path id="river" fill="none" stroke="var(--ink3)" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
       <g id="extras"></g>
       <g id="flags"></g>
@@ -312,6 +343,7 @@
       </dl>
       <div class="bars" id="bars"></div>
       <div class="barsLab"><span>8 周前</span><span>本周</span></div>
+      <div class="cal"><svg id="calSvg" viewBox="0 0 284 120" aria-label="最近二十周，每天一个墨点"></svg><div class="cap"><span>最近 20 周</span><span>墨点越大走得越多 · 空着的是休息</span></div></div>
     </div>
   </details>
 
@@ -377,9 +409,52 @@ const ROUTE=[
  {km:3840,alt:3000,name:'林芝',story:'南迦巴瓦海拔 7782 米，常年裹在云里，被叫作"羞女峰"。雅鲁藏布江绕它脚下拐出一个马蹄形大弯，切出了世界最深的峡谷。',badge:'南迦巴瓦',flavor:'云开的时候才露一次的南迦巴瓦。十个人来九个看不到，但你已经到了。'},
  {km:3970,alt:3440,name:'工布江达',story:'巴松措是宁玛派的圣湖，湖心岛上有措宗寺。当地人转湖，一律顺时针，走完一圈算一次修行。',badge:'巴松措',flavor:'林子深处的巴松措。四千公里过去了，拉萨就在前面。'},
  {km:4090,alt:5013,name:'米拉山口',story:'米拉山是尼洋河与拉萨河的分水岭，也是气候的分界：东边湿润多林，西边半干旱。过了这道垭口，树会肉眼可见地变少。',note:'全程最高',badge:'5013',flavor:'全程最高点，5,013 米。到这儿为止都是上坡，剩下的一路下山。',prop:'flags'},
- {km:4240,alt:3650,name:'大昭寺',story:'大昭寺建于七世纪，供奉文成公主带进藏的释迦牟尼十二岁等身像。八廓街本身就是围着它的转经道，顺时针，从天亮到天黑都有人在走。',note:'终点',badge:'到了',flavor:'八廓街的转经道上。磕长头的人用身体一寸一寸量完这条路，你用两年的清晨量完了它。走到这里的人都明白，重要的从来不是这座寺，是那 4,240 公里。',prop:'temple'}
+ {km:4240,alt:3650,name:'大昭寺',story:'大昭寺建于七世纪，供奉文成公主带进藏的释迦牟尼十二岁等身像。八廓街本身就是围着它的转经道，顺时针，从天亮到天黑都有人在走。',note:'终点',badge:'到了',flavor:'八廓街的转经道上。磕长头的人用身体一寸一寸量完这条路，你用两年的清晨量完了它。走到这里的人都明白，重要的从来不是这座寺，是那 4,240 公里。',prop:'temple'},
+ {km:4510,alt:3840,name:'日喀则',badge:'扎什伦布',
+   flavor:'过了拉萨还在走。后藏的中心，扎什伦布寺的金顶从很远就能看见——你也是从很远走来的。',
+   story:'日喀则是后藏的中心。扎什伦布寺由一世达赖根敦朱巴建于 1447 年，后来成为历代班禅的驻锡地。'},
+ {km:4660,alt:4010,name:'拉孜',badge:'岔路',
+   flavor:'一条路在这里分成两条。你选了往西北的那条，去神山。',
+   story:'过了拉孜，路分成两条：G318 继续往西南通向边境，G219 往西北进入阿里。去冈仁波齐，走的是后一条。'},
+ {km:4960,alt:4480,name:'萨嘎',badge:'希夏邦马',
+   flavor:'路南边那排雪山里藏着一座八千米。你已经走了快五千公里，比哪座山都长。',
+   story:'拉孜到萨嘎之间，路南边能望见希夏邦马，海拔 8027 米，是十四座八千米高峰里唯一完全在中国境内的一座。'},
+ {km:5110,alt:4570,name:'仲巴',badge:'马泉河',
+   flavor:'雅鲁藏布在这里还只是一条河，窄得能看清两岸。一条大江从这里开始，你的路却快到头了。',
+   story:'这一段的雅鲁藏布江叫马泉河，是它的源头段。再往西，这条大江只剩几股溪流，最后消失在杰马央宗冰川里。'},
+ {km:5200,alt:4600,name:'帕羊',badge:'雪山下的沙',prop:'dunes',
+   flavor:'雪山脚下一片沙丘，高原上最不像高原的一段。再走下去，神山就快出现在地平线上了。',
+   story:'帕羊一带的河滩上堆着大片沙丘，雪山就在沙丘背后。高原的风把河谷里的沙吹成了一小片沙漠。'},
+ {km:5290,alt:5216,name:'马攸木拉山口',badge:'5216',prop:'flags',
+   flavor:'阿里的门口。翻过去，冈仁波齐会在某个转弯处突然出现。',
+   story:'马攸木拉是日喀则和阿里的分界，也是雅鲁藏布江流域的西界。翻过这道垭口，就进了阿里。'},
+ {km:5350,alt:4590,name:'玛旁雍错',badge:'圣湖',prop:'lake',
+   flavor:'四个宗教共同的圣湖。有人从印度翻过喜马拉雅来这里沐浴，你从家里走了五千三百公里来这里歇脚。',
+   story:'玛旁雍错和冈仁波齐一起，被藏传佛教、苯教、印度教和耆那教同时奉为圣地。印度的朝圣者翻过喜马拉雅来这里沐浴，相信湖水能洗去罪业。'},
+ {km:5390,alt:4675,name:'塔尔钦',note:'转山起点',badge:'转山起点',
+   flavor:'五千三百九十公里。剩下的五十二公里，是绕着一座山走一圈。',
+   story:'转山的起点和终点都在这里。藏传佛教徒顺时针转，苯教徒逆时针转，两拨人在山路上迎面相遇。'},
+ {km:5410,alt:5210,name:'止热寺',badge:'北壁',
+   flavor:'冈仁波齐的北壁就在对面。整座山最陡、最清楚的一面，只留给走到这里的人。',
+   story:'转山第一晚大多住在这里。寺门正对冈仁波齐的北壁，那是整座山看得最清楚、也最陡的一面。'},
+ {km:5416,alt:5630,name:'卓玛拉山口',note:'全程最高',badge:'5630',
+   flavor:'整趟路真正的最高点。把什么留在这里，下山就轻一点。',
+   story:'翻卓玛拉之前，朝圣者会在路边留下一样随身的东西——一缕头发、一件旧衣——象征把这一生留在这里，翻过山口就是新生。'},
+ {km:5430,alt:4790,name:'祖楚寺',badge:'米拉日巴',
+   flavor:'米拉日巴修行过的洞。最难的已经过去，剩下的是一路缓坡。',
+   story:'祖楚寺建在米拉日巴修行过的山洞边。相传他和苯教大师斗法争夺这座神山，最后在冈仁波齐峰顶一决胜负。'},
+ {km:5442,alt:4675,name:'塔尔钦',note:'转完一圈',badge:'一圈',prop:'kailash',
+   flavor:'转山是绕着一座山走一圈，哪儿也不去，却走得很远——就像你这两年在跑步机上走的每一公里。五千四百四十二公里，圆满。',
+   story:'藏人相信，转山一圈可以洗去一生的罪业，转满十三圈可以走内转道，转满一百零八圈即可成佛。'}
 ];
-const FULL=4240, GOAL=4240, LKEY='g318:v2', TKEY='g318:theme';
+const L1=4240, FULL=5442, LKEY='g318:v2', TKEY='g318:theme';
+const UNLOCK={badge:'第二程',name:'冈仁波齐',km:L1,alt:3650,place:'拉萨 → 冈仁波齐 · 约 1,200 公里',
+  flavor:'西藏神圣的中心不止一个。大昭寺是其中之一，另一个在往西一千二百公里外——冈仁波齐，藏传佛教、苯教、印度教和耆那教共同的神山。第二程从这里开始，终点是绕着它走一圈。'};
+// 当前走在哪一程：剖面图、进度条、剩余距离都只看这一程
+function leg(t){return t<L1?{a:0,b:L1,from:'家',to:'大昭寺',max:5200}
+                         :{a:L1,b:FULL,from:'大昭寺',to:'冈仁波齐',max:5900}}
+const unlocked=()=>total()>=L1;
+const noteOf=p=>unlocked()&&p.name==='米拉山口'?'第一程最高':p.note;
 const LUNGTA=['#2E6FA8','#F2F0E8','#C0392F','#3E8E5A','#E0A22B'];
 let state={entries:[],ack:0}, sel=null, armed=false, ready=false;
 
@@ -423,7 +498,8 @@ const CREST=[
  {km:380, prov:'广西',d:'<path d="M2 23h26"/><path d="M4 23V12.5C4 7.8 7 4.5 11 4.5s7 3.3 7 8V23"/><path d="M18 23V12c0-2.6 1.6-4.4 3.6-4.4S25 9.4 25 12v11"/><path d="M18 23v-5.4c0-2 1.6-3.4 3.6-3.4S25 15.6 25 17.6V23"/><path d="M2 26c3 1.2 5-1 8 0s5 1 8 0 5-1 8 0"/>'},
  {km:1050,prov:'贵州',d:'<path d="M15 24v-5.5"/><path d="M9 18.5h12"/><path d="M8 17C4 11 4.2 6 7 2.5c1.8 4 5 6.2 8 6.2"/><path d="M22 17c4-6 3.8-11 1-14.5-1.8 4-5 6.2-8 6.2"/><path d="M11 12.5c1.6 1.4 6.8 1.4 8.4 0"/>'},
  {km:1950,prov:'四川',d:'<circle cx="15" cy="16" r="8.6"/><circle cx="7.8" cy="8.4" r="3.3"/><circle cx="22.2" cy="8.4" r="3.3"/><ellipse cx="11.6" cy="14.8" rx="2.3" ry="2.9"/><ellipse cx="18.4" cy="14.8" rx="2.3" ry="2.9"/><path d="M15 19v1.4"/><path d="M13.1 21.6c1.2 1 2.6 1 3.8 0"/>'},
- {km:3035,prov:'西藏',d:'<path d="M15 3v3.4"/><rect x="9" y="6.4" width="12" height="12.4" rx="1.6"/><path d="M9 10.5h12M9 14.7h12"/><path d="M15 18.8V26"/><path d="M11.5 26h7"/><path d="M21 12c3.2 0 5.4 1.6 5.4 3.6"/><circle cx="26.4" cy="18" r="2.1"/>'}
+  {km:3035,prov:'西藏',d:'<path d="M15 3v3.4"/><rect x="9" y="6.4" width="12" height="12.4" rx="1.6"/><path d="M9 10.5h12M9 14.7h12"/><path d="M15 18.8V26"/><path d="M11.5 26h7"/><path d="M21 12c3.2 0 5.4 1.6 5.4 3.6"/><circle cx="26.4" cy="18" r="2.1"/>'},
+ {km:5390,prov:'阿里',d:'<path d="M3 25L14 5.5 15 4.5 16 5.5 27 25"/><path d="M11 11.5l4-3.4 4 3.4"/><path d="M10 15h10M8.3 18.3h13.4M6.6 21.6h16.8"/>'}
 ];
 function paintCrest(km){
   $('crest').innerHTML=CREST.filter(c=>km>=c.km).map(c=>
@@ -642,6 +718,24 @@ function mani(x,y,k){
   d+=' '+pen([[x+1,cy-13],[x+10,cy-11],[x+1,cy-7.5]],k+41,.7);  // 一面小旗
   return d.trim();
 }
+function dunes(x,y,k){
+  return pen([[x-22,y+1],[x-13,y-7],[x-3,y+1]],k,.6)+' '+pen([[x-6,y+1],[x+6,y-11],[x+19,y+1]],k+1,.6)+' '+
+         pen([[x+2,y-5],[x+9,y-7]],k+2,.3);
+}
+function lake(x,y,k){
+  let d='';for(let i=0;i<3;i++){const yy=y+9+i*5,w=26-i*6;
+    d+=` M${(x-w).toFixed(1)} ${yy}q${(w/4).toFixed(1)} -2.4 ${(w/2).toFixed(1)} 0t${(w/2).toFixed(1)} 0t${(w/2).toFixed(1)} 0t${(w/2).toFixed(1)} 0`}
+  return d.trim();
+}
+function kailash(x,y,k){                         // 冈仁波齐：金字塔形的山体，南壁一道道横纹
+  const top=y-86;
+  let d=pen([[x-34,y],[x-6,top+4],[x,top],[x+6,top+4],[x+34,y]],k,.8);
+  d+=' '+pen([[x-12,top+22],[x-3,top+13],[x+3,top+13],[x+12,top+22]],k+1,.4);  // 雪线
+  for(let i=0;i<4;i++){const yy=top+30+i*11,w=10+i*6;
+    d+=' '+pen([[x-w,yy],[x+w,yy+.6]],k+2+i,.4)}
+  d+=' '+pen([[x,top+30],[x,y-4]],k+9,.4);
+  return d;
+}
 function temple(x,y,k){const w=15;
   return pen([[x-w,y],[x-w,y-14],[x+w,y-14],[x+w,y]],k,1.1)+' '+
          pen([[x-w-6,y-14],[x-w+2,y-23],[x+w-2,y-23],[x+w+6,y-14]],k+1,1.1)+' '+
@@ -649,14 +743,19 @@ function temple(x,y,k){const w=15;
          penCircle(x,y-33,3.4,k+3)}
 
 /* ---------- 风景 ---------- */
-const W=800,H=330,PAD_T=62,PAD_B=26,MAXALT=5200,NS='http://www.w3.org/2000/svg';
-const X=km=>km/FULL*W, Y=a=>PAD_T+(1-a/MAXALT)*(H-PAD_T-PAD_B);
-let PATH_A='',PATH_B='',HATCH='';
+const W=800,H=330,PAD_T=62,PAD_B=26,NS='http://www.w3.org/2000/svg';
+let LA=0,LB=L1,MAXALT=5200;
+const X=km=>(km-LA)/(LB-LA)*W, Y=a=>PAD_T+(1-a/MAXALT)*(H-PAD_T-PAD_B);
+let PATH_A='',PATH_B='',PATH_LEG=-1,HATCH='';
+const inLeg=p=>p.km>=LA&&p.km<=LB;
 function el(tag,attrs){const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);return n}
 function drawScene(km){
-  if(!PATH_A){
-    const pts=ROUTE.map(p=>[X(p.km),Y(p.alt)]);
-    PATH_A=pen(pts,7,2.8);PATH_B=pen(pts,4211,3.4);
+  const L=leg(total());LA=L.a;LB=L.b;MAXALT=L.max;
+  km=Math.max(LA,Math.min(LB,km));
+  if(PATH_LEG!==LB){                         // 换程时重画地形
+    const pts=ROUTE.filter(inLeg).map(p=>[X(p.km),Y(p.alt)]);
+    PATH_A=pen(pts,LB===L1?7:17,2.8);PATH_B=pen(pts,LB===L1?4211:5211,3.4);PATH_LEG=LB;
+    if(sel!==null&&!inLeg(ROUTE[sel]))sel=null;
   }
   $('lineA').setAttribute('d',PATH_A);
   $('lineB').setAttribute('d',PATH_B);
@@ -676,9 +775,14 @@ function drawScene(km){
   $('clipRect').setAttribute('width',(X(km)+20).toFixed(1));
 
   let d='';
+  if(LB===FULL)d+=' '+kailash(W-40,Y(4700),333);   // 第二程：神山立在最后面
   ROUTE.forEach((p,i)=>{
+    if(!inLeg(p))return;
     const x=X(p.km),y=Y(p.alt),k=200+i*13;
-    if(p.prop==='house')d+=' '+house(Math.max(x+11,13),y,k);
+    if(p.km===LA&&p.prop!=='house'&&LA>0){d+=' '+temple(Math.max(x+20,20),y,k);return}
+    if(p.prop==='dunes')d+=' '+dunes(x,y,k);
+    else if(p.prop==='lake')d+=' '+lake(x,y,k);
+    else if(p.prop==='house')d+=' '+house(Math.max(x+11,13),y,k);
     else if(p.prop==='karst')d+=' '+karst(x,y,k);
     else if(p.prop==='city')d+=' '+city(x,y,k);
     else if(p.prop==='trees')d+=' '+trees(x,y,k);
@@ -688,9 +792,9 @@ function drawScene(km){
   $('props').setAttribute('d',d.trim());
 
   const fg=$('flags');fg.textContent='';
-  ROUTE.filter(p=>p.prop==='flags').forEach((p,fi)=>{
+  ROUTE.filter(p=>p.prop==='flags'&&inLeg(p)).forEach((p,fi)=>{
     const x=X(p.km),y=Y(p.alt);
-    const x1=Math.max(6,x-46),x2=Math.min(W-6,x+46),cy=y+2,sag=30;
+    const x1=Math.max(6,x-46),x2=Math.min(LB===FULL?W-86:W-6,x+46),cy=y+2,sag=30;
     fg.appendChild(el('path',{d:`M${x1} ${cy}Q${x} ${cy+sag} ${x2} ${cy}`,fill:'none',
       stroke:'var(--ink2)','stroke-width':'1',opacity:'.75'}));
     for(let i=0;i<5;i++){
@@ -704,6 +808,7 @@ function drawScene(km){
 
   const g=$('nodes');g.textContent='';
   ROUTE.forEach((p,i)=>{
+    if(!inLeg(p))return;
     if(sel===i)g.appendChild(el('path',{d:penCircle(X(p.km),Y(p.alt),10,31+i),fill:'none',
       stroke:'var(--ink)','stroke-width':'1.5','stroke-linecap':'round'}));
     g.appendChild(el('circle',{cx:X(p.km),cy:Y(p.alt),r:km>=p.km?2.9:2.1,
@@ -716,24 +821,24 @@ function drawScene(km){
     pen([[wx-4.6,wy],[wx,wy-h*.45],[wx+5.2,wy-1]],103,.8)+' '+
     pen([[wx-5.4,wy-h*.8],[wx,wy-h*.62],[wx+5,wy-h*.84]],107,.8));
 
-  // 低地段的河：蜿蜒穿过前两千公里
-  const riv=$('river');
-  riv.setAttribute('d',
+  const riv=$('river'),ex=$('extras');ex.textContent='';
+  const BIRDS=LB===L1?[[X(1500),96],[X(1570),80],[X(1640),104]]:[[X(4780),98],[X(4840),84],[X(4900),106]];
+  const WIND=LB===L1?[[X(2510),Y(4298)-26],[X(4090),Y(5013)-20]]:[[X(5290),Y(5216)-24],[X(5416),Y(5630)-18]];
+  riv.setAttribute('d',LB===L1?                // 第一程：低地段一条河；第二程：雅鲁藏布上游
     snake(X(180),Y(60)+14,X(1150)-X(180),1717,.10)+' '+
     pen([[X(300),Y(60)+22],[X(420),Y(60)+23]],1718,1.2)+' '+
-    pen([[X(620),Y(60)+26],[X(760),Y(60)+25]],1719,1.2));
-  // 两只鸟和垭口的风
-  const ex=$('extras');ex.textContent='';
-  [[X(1500),96],[X(1570),80],[X(1640),104]].forEach((b,i)=>{
+    pen([[X(620),Y(60)+26],[X(760),Y(60)+25]],1719,1.2)
+   :snake(X(4700),Y(4300)+30,X(5150)-X(4700),1817,.08));
+  BIRDS.forEach((b,i)=>{
     ex.appendChild(el('path',{d:`M${b[0]-9} ${b[1]}q4.5 -4.5 9 0q4.5 -4.5 9 0`,fill:'none',
       stroke:'var(--ink2)','stroke-width':'1.2','stroke-linecap':'round',opacity:'.7'}));
   });
-  [[X(2510),Y(4298)-26],[X(4090),Y(5013)-20]].forEach((wnd,i)=>{
+  WIND.forEach((wnd,i)=>{
     ex.appendChild(el('path',{d:snake(wnd[0]-52,wnd[1],44,2100+i*13,.30),fill:'none',
       stroke:'var(--ink3)','stroke-width':'1.1','stroke-linecap':'round',opacity:'.8'}));
   });
   const sk=$('sky');sk.textContent='';
-  const sx=W-46,sy=30;
+  const sx=LB===FULL?W-156:W-46,sy=30;     // 第二程把天空让给神山
   if(isDark()){
     sk.appendChild(el('path',{d:'M'+(sx+7)+' '+(sy-9)+'a11 11 0 1 0 9 16 9 9 0 0 1-9-16z',fill:'none',
       stroke:'var(--ink2)','stroke-width':'1.3','stroke-linejoin':'round'}));
@@ -781,7 +886,8 @@ function drawBar(frac){
     s+=`<path d="${pen([[BX+fw,BY+1],[BX+fw,y2-1]],777,.8)}" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" fill="none"/>`;
   }
   s+=`<path d="${outline}" fill="none" stroke="var(--ink)" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>`;
-  ROUTE.forEach(p=>{const x=BX+BW*(p.km/FULL);
+  const Lg=leg(total());
+  ROUTE.filter(p=>p.km>=Lg.a&&p.km<=Lg.b).forEach(p=>{const x=BX+BW*((p.km-Lg.a)/(Lg.b-Lg.a));
     s+=`<path d="M${x.toFixed(1)} ${y2+5}v${p.prop?7:4}" stroke="var(--ink3)" stroke-width="1.1" stroke-linecap="round"/>`});
   const rx=Math.min(BX+BW-10,Math.max(BX+10,BX+fw));
   if(fw>26){
@@ -789,8 +895,8 @@ function drawBar(frac){
        ` fill="none" stroke="var(--ink3)" stroke-width="1.3" stroke-linecap="round"/>`;
   }
   s+=`<path d="${runner(rx,BY,610)}" fill="none" stroke="var(--red)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>`;
-  s+=`<text x="${BX}" y="${y2+24}" fill="var(--ink3)" font-size="12">家</text>`;
-  s+=`<text x="${BX+BW}" y="${y2+24}" fill="var(--ink3)" font-size="12" text-anchor="end">大昭寺</text>`;
+  s+=`<text x="${BX}" y="${y2+24}" fill="var(--ink3)" font-size="12">${Lg.from}</text>`;
+  s+=`<text x="${BX+BW}" y="${y2+24}" fill="var(--ink3)" font-size="12" text-anchor="end">${Lg.to}</text>`;
   $('barSvg').innerHTML=s;
 }
 
@@ -802,8 +908,8 @@ function renderDetail(){
   box.innerHTML=`<div class="detail"><div class="hd"><b>${esc(p.name)}</b>
     <span>${fmt(p.km)} km · 海拔 ${fmt(p.alt)} m</span>
     <div class="nav">
-      <button id="pv"${sel===0?' disabled':''} aria-label="上一个点">\u2039</button>
-      <button id="nx"${sel===ROUTE.length-1?' disabled':''} aria-label="下一个点">\u203a</button>
+      <button id="pv"${!ROUTE[sel-1]||!inLeg(ROUTE[sel-1])?' disabled':''} aria-label="上一个点">\u2039</button>
+      <button id="nx"${!ROUTE[sel+1]||!inLeg(ROUTE[sel+1])?' disabled':''} aria-label="下一个点">\u203a</button>
       <button id="cl" aria-label="关闭">\u00d7</button>
     </div></div>
     ${p.story?`<div class="story">${esc(p.story)}</div>`:''}</div>`;
@@ -812,40 +918,40 @@ function renderDetail(){
   $('cl').onclick=()=>select(null);
 }
 function select(i,scroll){
-  sel=(i===null||i<0||i>=ROUTE.length)?null:i;
+  sel=(i===null||i<0||i>=ROUTE.length||!inLeg(ROUTE[i]))?null:i;
   drawScene(Math.min(total(),FULL));renderDetail();
   if(scroll&&sel!==null)$('chart').scrollIntoView({behavior:'smooth',block:'center'});
 }
 $('chart').addEventListener('click',e=>{
   const r=e.currentTarget.getBoundingClientRect();
-  const km=(e.clientX-r.left)/r.width*FULL;
-  let best=0,bd=Infinity;
-  ROUTE.forEach((p,i)=>{const d=Math.abs(p.km-km);if(d<bd){bd=d;best=i}});
+  const km=LA+(e.clientX-r.left)/r.width*(LB-LA);
+  let best=-1,bd=Infinity;
+  ROUTE.forEach((p,i)=>{if(!inLeg(p))return;const d=Math.abs(p.km-km);if(best<0||d<bd){bd=d;best=i}});
   select(best);
 });
 document.addEventListener('keydown',e=>{
   if(sel===null||/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName))return;
-  if(e.key==='ArrowLeft'&&sel>0){e.preventDefault();select(sel-1)}
-  if(e.key==='ArrowRight'&&sel<ROUTE.length-1){e.preventDefault();select(sel+1)}
+  if(e.key==='ArrowLeft'&&ROUTE[sel-1]&&inLeg(ROUTE[sel-1])){e.preventDefault();select(sel-1)}
+  if(e.key==='ArrowRight'&&ROUTE[sel+1]&&inLeg(ROUTE[sel+1])){e.preventDefault();select(sel+1)}
   if(e.key==='Escape')select(null);
 });
 
 /* ---------- 渲染 ---------- */
 function render(){
-  const t=total(),cap=Math.min(t,FULL);
+  const t=total(),cap=Math.min(t,FULL),Lg=leg(t),frac=Math.min(1,Math.max(0,(t-Lg.a)/(Lg.b-Lg.a)));
   $('totalKm').textContent=t%1?t.toFixed(1):fmt(t);
-  $('pct').textContent=(t/GOAL*100).toFixed(1)+'%';
-  drawBar(Math.min(1,t/GOAL));
+  $('pct').textContent=(Lg.a?'第二程 ':'')+(frac*100).toFixed(1)+'%';
+  drawBar(frac);
   paintCrest(cap);
   drawScene(cap);
 
   let passed=ROUTE[0],next=null;
   for(const p of ROUTE){if(cap>=p.km)passed=p;else{next=p;break}}
   $('here').innerHTML=next?`刚过 <b>${esc(passed.name)}</b> · 距 ${esc(next.name)} 还有 ${fmt(next.km-cap)} 公里`
-    :`<b>到了大昭寺。</b>转经道上见。`;
-  const rem=GOAL-t;
-  $('leftTxt').innerHTML=rem>0?`距终点还有 <b>${fmt(rem)}</b> 公里 · 已完成 ${(t/GOAL*100).toFixed(1)}%`
-    :`走完了，多出 <b>${fmt(t-GOAL)}</b> 公里`;
+    :`<b>转山一圈，圆满。</b>`;
+  const rem=Lg.b-t;
+  $('leftTxt').innerHTML=rem>0?`距${Lg.to}还有 <b>${fmt(rem)}</b> 公里 · 这一程完成 ${(frac*100).toFixed(1)}%`
+    :`全部走完，多出 <b>${fmt(t-FULL)}</b> 公里`;
 
   const ws=weekStart(new Date()).getTime();
   const thisWk=state.entries.filter(e=>parse(e.date).getTime()>=ws).reduce((s,e)=>s+e.km,0);
@@ -875,16 +981,20 @@ function render(){
     return `<i class="${i===7?'cur':''}" style="height:${Math.max(2,v/mx*100)}%" title="${v.toFixed(1)} km"></i>`;
   }).join('');
 
-  const doneCt=ROUTE.filter(p=>cap>=p.km).length;
-  $('ctStops').textContent=`${doneCt} / ${ROUTE.length}`;
+  drawCal();
+  const shown=ROUTE.filter(p=>p.km<=L1||t>=L1);
+  const doneCt=shown.filter(p=>cap>=p.km).length;
+  $('ctStops').textContent=`${doneCt} / ${shown.length}`;
   $('stops').innerHTML=ROUTE.map((p,i)=>{
+    if(p.km>L1&&t<L1)return '';
     const done=cap>=p.km,now=p===passed;
-    const tag=now&&p.km<FULL?'<small>你在这</small>':(p.note?`<small>${esc(p.note)}</small>`:'');
+    const nt=noteOf(p);
+    const tag=now&&p.km<FULL?'<small>你在这</small>':(nt?`<small>${esc(nt)}</small>`:'');
     return `<button class="stop${done?' done':''}${now?' now':''}" data-i="${i}">
       <span class="dot"></span><span class="nm">${esc(p.name)}${tag}</span><span class="km">${fmt(p.km)}</span></button>`;
   }).join('');
 
-  const B=ROUTE.filter(p=>p.badge);
+  const B=ROUTE.filter(p=>p.badge&&(p.km<=L1||t>=L1));
   $('ctBadges').textContent=`${B.filter(p=>cap>=p.km).length} / ${B.length}`;
   const gotB=B.filter(p=>cap>=p.km).reverse();
   $('badges').innerHTML=gotB.length?gotB.map(p=>`<div class="bgi" data-bg="${p.km}"><b>${esc(p.badge)}</b>
@@ -893,9 +1003,14 @@ function render(){
 
   $('ctLog').textContent=n?`${n} 次`:'';
   const es=[...state.entries].sort((a,b)=>a.date<b.date?1:-1).slice(0,40);
-  $('entries').innerHTML=es.length?es.map(e=>`<div class="row">
+  $('entries').innerHTML=es.length?es.map(e=>e.id===editingId?`<div class="row editing">
+      <input class="ed" type="date" value="${e.date}" aria-label="日期">
+      <input class="ek" type="number" inputmode="decimal" step="0.1" min="0" value="${e.km}" aria-label="公里">
+      <input class="en" type="text" maxlength="80" value="${esc(e.note||'')}" placeholder="备注" aria-label="备注">
+      <div class="acts"><button class="cn">取消</button><button class="sv">保存</button></div></div>`
+    :`<div class="row">
       <span class="d">${e.date.slice(5).replace('-','.')}</span>
-      <span class="k">${e.km} km</span><button data-del="${e.id}">删除</button>
+      <span class="k">${e.km} km</span><button data-ed="${e.id}">改</button><button data-del="${e.id}">删除</button>
       ${e.note?`<span class="nt">${esc(e.note)}</span>`:''}</div>`).join('')
     :'<div class="empty">还没有记录。走完第一次，从家出发。</div>';
 }
@@ -906,18 +1021,20 @@ function checkBadges(){
   const t=Math.min(total(),FULL),ack=state.ack;
   const got=ROUTE.filter(p=>p.badge&&p.km>ack&&p.km<=t);
   state.ack=t;
+  const j=got.findIndex(p=>p.km===L1);
+  if(j>=0)got.splice(j+1,0,UNLOCK);        // 走到大昭寺，紧接着告诉你第二程
   if(!got.length)return null;
   QUEUE=got.slice(1);              // 一次跨过好几个站就一个个弹
   return got[0];
 }
 function popup(p){
-  const rem=GOAL-total();
-  const txt=`我在跑步机上走到了${p.name}「${p.badge}」，距家 ${fmt(p.km)} 公里。G318，还剩 ${fmt(Math.max(0,rem))} 公里到拉萨。`;
+  const tt=total(),Lp=leg(tt),rem=Lp.b-tt;
+  const txt=`我在跑步机上走到了${p.name}「${p.badge}」，距家 ${fmt(p.km)} 公里。${rem>0?`还剩 ${fmt(rem)} 公里到${Lp.to}。`:'全部走完了。'}`;
   const v=document.createElement('div');
   v.className='veil';
   v.innerHTML=`<div class="card" role="dialog" aria-modal="true">
     <h3>${esc(p.badge)}</h3>
-    <div class="place">${esc(p.name)} · ${fmt(p.km)} km · 海拔 ${fmt(p.alt)} m</div>
+    <div class="place">${esc(p.place||`${p.name} · ${fmt(p.km)} km · 海拔 ${fmt(p.alt)} m`)}</div>
     <p>${esc(p.flavor)}</p>
     <div class="acts"><button id="shareBtn">分享</button><button id="closeBtn">继续</button></div>
     <div class="copied" id="copied"></div></div>`;
@@ -946,9 +1063,65 @@ function loadLocal(){
   try{const r=localStorage.getItem(LKEY);if(r)state=Object.assign({entries:[],ack:0},JSON.parse(r))}
   catch(e){canStore=false}
 }
-function commit(){saveLocal();render()}
+function commit(){saveLocal();render();checkBackup()}
+
+/* ---------- 点阵日历：走了的日子是墨点，休息的日子就是纸 ---------- */
+function drawCal(){
+  const weeks=20,cell=14,ox=8,oy=22;
+  const today=new Date();today.setHours(0,0,0,0);
+  const start=weekStart(today);start.setDate(start.getDate()-(weeks-1)*7);
+  const by={};state.entries.forEach(e=>{by[e.date]=(by[e.date]||0)+e.km});
+  let s='',lastM=-1;
+  for(let w=0;w<weeks;w++){
+    const col=new Date(start);col.setDate(start.getDate()+w*7);
+    if(col.getMonth()!==lastM){lastM=col.getMonth();
+      s+=`<text x="${ox+w*cell-3}" y="9" font-size="9.5" fill="var(--ink3)">${col.getMonth()+1}月</text>`}
+    for(let d=0;d<7;d++){
+      const day=new Date(start);day.setDate(start.getDate()+w*7+d);
+      if(day>today)continue;
+      const k=iso(day),v=by[k]||0,cx=ox+w*cell,cy=oy+d*cell;
+      if(v>0){const rr=2.1+Math.min(1,v/15)*3.5;
+        s+=`<path d="${penCircle(cx,cy,rr,day.getTime()%9973)}" fill="var(--ink)" stroke="var(--ink)" stroke-width=".6"/>`}
+      else s+=`<circle cx="${cx}" cy="${cy}" r="1.15" fill="var(--ink3)" opacity=".55"/>`;
+      if(day.getTime()===today.getTime())
+        s+=`<path d="${penCircle(cx,cy,6.6,77)}" fill="none" stroke="var(--red)" stroke-width="1.2" stroke-linecap="round"/>`;
+    }
+  }
+  $('calSvg').innerHTML=s;
+}
+
+/* ---------- 底部浮条 ---------- */
+let toastEl=null,toastT=null;
+function toast(msg,label,act,ms){
+  if(toastEl)toastEl.remove();clearTimeout(toastT);
+  const t=document.createElement('div');t.className='toast';t.setAttribute('role','status');
+  t.innerHTML=`<span>${esc(msg)}</span>`+(label?`<button>${esc(label)}</button>`:'');
+  if(label)t.querySelector('button').onclick=()=>{t.remove();toastEl=null;act&&act()};
+  (document.documentElement||document.body).appendChild(t);toastEl=t;
+  toastT=setTimeout(()=>{if(toastEl===t){t.remove();toastEl=null}},ms||6000);
+}
+
+/* ---------- 备份提醒 ---------- */
+const MKEY='g318:meta';
+function meta(){try{return JSON.parse(localStorage.getItem(MKEY)||'{}')}catch(e){return{}}}
+function setMeta(m){try{localStorage.setItem(MKEY,JSON.stringify(Object.assign(meta(),m)))}catch(e){}}
+function checkBackup(){
+  const box=$('backup'),n=state.entries.length;
+  if(!n){box.hidden=true;return}
+  const m=meta(),now=Date.now();
+  if(m.snooze&&now<m.snooze){box.hidden=true;return}
+  const first=parse(state.entries.map(e=>e.date).sort()[0]).getTime();
+  const base=m.lastExport||first, days=Math.floor((now-base)/DAY);
+  if(days<30){box.hidden=true;return}
+  $('backupTxt').innerHTML=m.lastExport?`上次备份是 <b>${days}</b> 天前`:`记了 <b>${days}</b> 天，还没备份过`;
+  box.hidden=false;
+}
 
 /* ---------- 交互 ---------- */
+function guardBig(km,fire){
+  if(km<=42){fire();return}
+  toast(`${km.toFixed(1)} 公里？一次超过一个马拉松了`,'确认记下',fire,9000);
+}
 function addEntry(km,date,note){
   state.entries=state.entries.concat([{
     id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
@@ -960,8 +1133,8 @@ function addEntry(km,date,note){
 $('add').addEventListener('click',()=>{
   const v=parseFloat($('km').value);
   if(!(v>0)){flash('输入一个公里数，比如 6.5',1);$('km').focus();return}
-  addEntry(v,iso(new Date()),$('note').value);
-  $('km').value='';$('note').value='';
+  const note=$('note').value;
+  guardBig(v,()=>{addEntry(v,iso(new Date()),note);$('km').value='';$('note').value=''});
 });
 $('km').addEventListener('keydown',e=>{if(e.key==='Enter')$('add').click()});
 $('note').addEventListener('keydown',e=>{if(e.key==='Enter')$('add').click()});
@@ -974,14 +1147,35 @@ $('bdToggle').addEventListener('click',()=>{
 $('bdAdd').addEventListener('click',()=>{
   const v=parseFloat($('bdKm').value),d=$('bdDate').value;
   if(!(v>0)||!d){flash('补记需要日期和公里数',1);return}
-  addEntry(v,d,$('bdNote').value);
-  $('bdKm').value='';$('bdNote').value='';
+  const note=$('bdNote').value;
+  guardBig(v,()=>{addEntry(v,d,note);$('bdKm').value='';$('bdNote').value=''});
 });
+let editingId=null;
 $('entries').addEventListener('click',e=>{
-  const id=e.target.dataset&&e.target.dataset.del;if(!id)return;
-  state.entries=state.entries.filter(x=>x.id!==id);
-  state.ack=Math.min(state.ack,Math.min(total(),FULL));
-  commit();
+  const t=e.target,ds=t.dataset||{};
+  if(ds.del){
+    const gone=state.entries.find(x=>x.id===ds.del),prevAck=state.ack;if(!gone)return;
+    state.entries=state.entries.filter(x=>x.id!==ds.del);
+    state.ack=Math.min(state.ack,Math.min(total(),FULL));
+    commit();
+    toast(`已删除 ${gone.date.slice(5).replace('-','.')} 的 ${gone.km} 公里`,'撤销',()=>{
+      state.entries=state.entries.concat([gone]);state.ack=prevAck;commit();
+    });
+  }else if(ds.ed){editingId=ds.ed;render();
+    const r=$('entries').querySelector('.editing .ek');if(r)r.focus();
+  }else if(t.classList.contains('cn')){editingId=null;render();
+  }else if(t.classList.contains('sv')){
+    const row=t.closest('.editing'),v=parseFloat(row.querySelector('.ek').value),d=row.querySelector('.ed').value;
+    if(!(v>0)||!d){toast('需要日期和公里数');return}
+    const note=row.querySelector('.en').value.trim()||undefined;
+    const apply=()=>{
+      state.entries=state.entries.map(x=>x.id===editingId?{id:x.id,date:d,km:Math.round(v*10)/10,note}:x);
+      editingId=null;
+      const earned=checkBadges();          // 改大了跨过站点也照样弹
+      commit();if(earned)popup(earned);
+    };
+    guardBig(v,apply);
+  }
 });
 $('badges').addEventListener('click',e=>{
   const b=e.target.closest('[data-bg]');if(!b)return;
@@ -1023,8 +1217,11 @@ $('csv').addEventListener('click',()=>{
   a.href=URL.createObjectURL(new Blob([toCSV()],{type:'text/csv;charset=utf-8'}));
   a.download='g318-'+iso(new Date())+'.csv';a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  setMeta({lastExport:Date.now(),snooze:0});checkBackup();
 });
 $('imp').addEventListener('click',()=>$('file').click());
+$('backupGo').addEventListener('click',()=>$('csv').click());
+$('backupLater').addEventListener('click',()=>{setMeta({snooze:Date.now()+7*DAY});checkBackup()});
 $('file').addEventListener('change',e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
   const rd=new FileReader();
@@ -1032,9 +1229,12 @@ $('file').addEventListener('change',e=>{
     let rows=[];
     try{rows=parseCSV(String(rd.result))}catch(err){flash('这个文件读不出来',1);return}
     if(!rows.length){flash('没读到有效记录（需要 日期,公里 两列）',1);return}
-    const have=new Set(state.entries.map(x=>x.date+'|'+x.km));
-    const add=rows.filter(r=>!have.has(r.date+'|'+r.km)).map(r=>Object.assign({
-      id:Date.now().toString(36)+Math.random().toString(36).slice(2,6)},r));
+    // 同一天记了两次一样的公里数是合法的：按出现次数比，不按"有没有"比
+    const key=x=>x.date+'|'+x.km+'|'+(x.note||'');
+    const have={};state.entries.forEach(x=>{have[key(x)]=(have[key(x)]||0)+1});
+    const add=[];
+    rows.forEach(r=>{const k=key(r);if(have[k]>0)have[k]--;else add.push(Object.assign({
+      id:Date.now().toString(36)+Math.random().toString(36).slice(2,6)},r))});
     state.entries=state.entries.concat(add);
     state.ack=Math.min(total(),FULL);
     commit();
@@ -1061,7 +1261,9 @@ applyTheme(savedTheme);
 try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{
   if(!document.documentElement.dataset.theme)applyTheme(null);
 })}catch(e){}
-loadLocal();render();ready=true;
+loadLocal();render();ready=true;checkBackup();
+try{if(navigator.storage&&navigator.storage.persist)
+  navigator.storage.persisted().then(ok=>{if(!ok)navigator.storage.persist()}).catch(()=>{})}catch(e){}
 if('serviceWorker' in navigator)
   window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
