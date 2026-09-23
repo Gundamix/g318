@@ -62,26 +62,26 @@
   .sec{position:relative;margin-top:30px}
   .vig{display:block;height:auto;overflow:visible;color:var(--ink2);opacity:.66;margin:14px 0 0}
   #vig1{width:186px} #vig2{width:170px} #vig3{width:190px}
-  .brush{display:block;color:var(--ink);opacity:.52;flex:none;overflow:visible;pointer-events:none}
-  #br0{position:absolute;left:212px;top:1px;width:54px;height:27px;opacity:.38}
+  /* 边角速写：钢笔线稿，和沿途小景一个笔法 */
+  .sk{display:block;color:var(--ink2);opacity:.62;flex:none;overflow:visible;pointer-events:none}
   .sqrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  #br1{width:64px;height:31px;margin-right:5%}
+  #sk1{width:60px;height:41px;margin-right:4%}
   .gaprow{display:flex;align-items:center;gap:10px;margin-top:14px}
   .gaprow .vig{margin:0}
   .gaprow.l{padding-left:3%}
-  .gaprow.l .margin{margin-left:auto}
+  .gaprow.l #sk2{margin-left:auto;margin-right:3%}
   .gaprow.r{padding-right:2%}
   .gaprow.r .vig{margin-left:auto}
   .gaprow.c{justify-content:space-between;padding:0 2%}
-  .margin{font-family:var(--brush);font-size:14.5px;line-height:1.35;color:var(--ink3);
-    transform:rotate(-4deg);flex:none;letter-spacing:.04em;pointer-events:none}
-  .margin.m2{transform:rotate(3deg)}
-  #br2{width:48px;height:41px}
-  #br3{width:44px;height:39px;transform:rotate(-8deg)}
-  #br4{width:46px;height:36px}
-  #br5{width:38px;height:26px;margin-left:auto}
+  #sk2{width:62px;height:46px;transform:rotate(-3deg)}
+  #sk3{width:48px;height:42px;transform:rotate(-6deg)}
+  #sk4{width:82px;height:49px}
+  #sk7{width:38px;height:38px;transform:rotate(8deg)}
+  #sk5{width:56px;height:29px;margin-left:auto}
+  #sk6{width:32px;height:32px;margin-left:auto;transform:rotate(4deg);opacity:.5}
+  #peaks{bottom:8px;right:2px;width:62px;opacity:.36}
   .ring{width:64px;height:58px;color:var(--ink2);opacity:.22;flex:none;overflow:visible}
-  @media (max-width:400px){#vig1,#vig2,#vig3{width:150px}.margin{font-size:13px}#br0{left:198px}}
+  @media (max-width:400px){#vig1,#vig2,#vig3{width:150px}#sk4{width:70px}#sk2{width:52px}}
   .panel.torn{border-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;padding-bottom:20px}
   .panel.torn::after{border-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0}
   .tear{position:absolute;left:-1.5px;bottom:-6px;width:calc(100% + 3px);height:12px;color:var(--rule);overflow:visible}
@@ -177,7 +177,16 @@
   summary .cv{color:var(--ink3);font-size:10px;transition:transform .18s;flex:none;font-family:var(--sans)}
   details[open] summary .cv{transform:rotate(90deg)}
 
-  .logtop{padding-bottom:12px;border-bottom:1px dashed var(--rule)}
+  .logtop{padding-bottom:12px;border-bottom:1px dashed var(--rule);display:flex;align-items:center;gap:10px}
+  .logtop>div{flex:1;min-width:0}
+  .streak{font-size:12.5px;color:var(--ink3);padding-top:3px}
+  .goal{padding-top:5px}
+  #goalBtn{background:none;border:0;color:var(--ink2);font:inherit;font-size:12.5px;cursor:pointer;
+    padding:0;text-decoration:underline;text-underline-offset:3px}
+  #goalBtn.hit{color:var(--red)}
+  .showall{display:block;margin:8px auto 0;background:none;border:0;color:var(--ink2);font:inherit;font-size:12.5px;
+    cursor:pointer;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+  .showall[hidden]{display:none}
   .wk{font-size:13px;color:var(--ink2)}
   .wk b{font-family:var(--num);font-size:21px;color:var(--ink);font-weight:700}
   .left{font-size:13px;color:var(--ink2);padding-top:2px}
@@ -289,6 +298,14 @@
   .cal{margin-top:22px}
   .cal svg{display:block;width:100%;height:auto;overflow:visible}
   .cal .cap{font-size:11px;color:var(--ink3);padding-top:6px;display:flex;justify-content:space-between}
+  /* 按月小结 */
+  .mon{width:100%;border-collapse:collapse;margin-top:22px;font-size:12.5px;font-variant-numeric:tabular-nums}
+  .mon:empty{display:none}
+  .mon th{font-weight:400;color:var(--ink3);font-size:11px;text-align:right;padding:0 0 5px}
+  .mon th:first-child,.mon td:first-child{text-align:left}
+  .mon td{text-align:right;padding:5px 0;border-top:1px dashed var(--rule);color:var(--ink2)}
+  .mon td:first-child{color:var(--ink);font-family:var(--num);font-size:16px;font-weight:700}
+  .mon td b{color:var(--ink);font-weight:600}
   footer{padding-top:26px;font-size:12.5px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
     position:relative}
   footer button{background:none;border:0;color:var(--ink3);font:inherit;font-size:12.5px;
@@ -322,9 +339,10 @@
 
 <svg class="doodle" id="clip" viewBox="0 0 24 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M16.5 6v25a5.5 5.5 0 0 1-11 0V8a3.4 3.4 0 0 1 6.8 0v22a1.7 1.7 0 0 1-3.4 0V10"/></svg>
 <svg class="doodle" id="rose" viewBox="0 0 42 42" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="21" cy="21" r="15"/><path d="M21 4v5M21 33v5M4 21h5M33 21h5"/><path d="M21 8l4.4 8.6L34 21l-8.6 4.4L21 34l-4.4-8.6L8 21l8.6-4.4z"/></svg>
+<svg class="doodle" id="peaks" viewBox="0 0 64 38" aria-hidden="true"></svg>
 <svg class="doodle" id="stupa" viewBox="0 0 40 46" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 44h28M10 44v-7h20v7M13 37v-6h14v6M20 31a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M16 15l4-7 4 7M20 8V3"/><path d="M12 41h4M18 41h4M24 41h4M14 39.5h2M20 39.5h2M26 39.5h2"/></svg>
 
-<div class="topbar"><svg class="brush" id="br0" viewBox="0 0 60 30" aria-hidden="true"></svg><svg id="plane" viewBox="0 0 162 34" aria-hidden="true"></svg><button id="theme" aria-label="切换深浅色"></button></div>
+<div class="topbar"><svg id="plane" viewBox="0 0 162 34" aria-hidden="true"></svg><button id="theme" aria-label="切换深浅色"></button></div>
 
 <div id="backup" hidden><span id="backupTxt"></span><button id="backupGo">导出 CSV</button><button class="later" id="backupLater">过几天再说</button></div>
 <section class="sec">
@@ -332,14 +350,14 @@
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv1" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
 
   <div class="total"><span class="big" id="totalKm">0</span><span class="unit">公里</span><span class="pct" id="pct"></span></div>
-  <div class="sqrow"><svg class="squig" viewBox="0 0 210 12" preserveAspectRatio="none" aria-hidden="true"><path id="sq1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="brush" id="br1" viewBox="0 0 70 34" aria-hidden="true"></svg></div>
+  <div class="sqrow"><svg class="squig" viewBox="0 0 210 12" preserveAspectRatio="none" aria-hidden="true"><path id="sq1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="sk" id="sk1" viewBox="0 0 60 44" aria-hidden="true"></svg></div>
 
   <div class="bar"><svg id="barSvg" viewBox="0 0 600 88" aria-hidden="true"></svg></div>
   <div class="here" id="here">读取记录中…</div>
   <svg id="pack" viewBox="0 0 38 42" aria-hidden="true"></svg>
 </section>
 
-<div class="gaprow l"><svg class="vig" id="vig1" viewBox="0 0 176 64" aria-hidden="true"></svg><span class="margin">路在脚下，<br>山在心上。</span><svg class="brush" id="br2" viewBox="0 0 56 48" aria-hidden="true"></svg></div>
+<div class="gaprow l"><svg class="vig" id="vig1" viewBox="0 0 176 64" aria-hidden="true"></svg><svg class="sk" id="sk2" viewBox="0 0 66 50" aria-hidden="true"></svg></div>
 <section class="sec">
   <div class="sechd"><span class="ic" id="icPen"></span><h2>记一笔</h2><span class="dd" data-dd="shoe"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -360,7 +378,7 @@
   </div>
 </section>
 
-<div class="gaprow r"><svg class="ring" id="ring" viewBox="0 0 70 64" aria-hidden="true"></svg><svg class="brush" id="br3" viewBox="0 0 50 44" aria-hidden="true"></svg><svg class="vig" id="vig2" viewBox="0 0 170 52" aria-hidden="true"></svg></div>
+<div class="gaprow r"><svg class="ring" id="ring" viewBox="0 0 70 64" aria-hidden="true"></svg><svg class="sk" id="sk3" viewBox="0 0 52 46" aria-hidden="true"></svg><svg class="vig" id="vig2" viewBox="0 0 170 52" aria-hidden="true"></svg></div>
 <section class="sec">
   <div class="sechd"><span class="ic" id="icMt"></span><h2>海拔剖面</h2><span class="dd" data-dd="cloud"></span></div>
   <svg class="wave" viewBox="0 0 600 9" preserveAspectRatio="none" aria-hidden="true"><path id="wv3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -386,7 +404,7 @@
   <div id="detail"></div>
 </section>
 
-<div class="gaprow c"><span class="margin m2">慢慢走，<br>比较快。</span><svg class="vig" id="vig3" viewBox="0 0 196 60" aria-hidden="true"></svg><svg class="brush" id="br4" viewBox="0 0 52 40" aria-hidden="true"></svg></div>
+<div class="gaprow c"><svg class="sk" id="sk4" viewBox="0 0 84 50" aria-hidden="true"></svg><svg class="vig" id="vig3" viewBox="0 0 196 60" aria-hidden="true"></svg><svg class="sk" id="sk7" viewBox="0 0 40 40" aria-hidden="true"></svg></div>
 <div class="drawers">
   <details>
     <summary><span class="cv">▶</span><span class="ic" id="icData"></span>数据</summary>
@@ -406,6 +424,7 @@
       <div class="barsLab"><span>8 周前</span><span>本周</span></div>
       <div class="pace" id="paceBox" hidden><svg id="paceSvg" viewBox="0 0 284 96" aria-label="配速"></svg></div>
       <div class="cal"><svg id="calSvg" viewBox="0 0 284 120" aria-label="最近二十周"></svg></div>
+      <table class="mon" id="mon" aria-label="按月小结"></table>
     </div>
   </details>
 
@@ -422,8 +441,11 @@
   <details>
     <summary><span class="cv">▶</span><span class="ic" id="icBook"></span>记录<span class="ct" id="ctLog"></span></summary>
     <div class="panel">
-      <div class="logtop"><div class="wk" id="wk"></div><div class="left" id="leftTxt"></div></div>
+      <div class="logtop"><div><div class="wk" id="wk"></div><div class="left" id="leftTxt"></div>
+        <div class="streak" id="streakTxt"></div><div class="goal"><button id="goalBtn">设个每周目标</button></div></div>
+        <svg class="sk" id="sk6" viewBox="0 0 34 36" aria-hidden="true"></svg></div>
       <div id="entries"></div>
+      <button class="showall" id="showAll" hidden></button>
       <div class="backfill">
         <button id="bdToggle"><span class="ic" data-ic="cal"></span><span id="bdLabel">补记其他日期</span></button>
         <div id="bdForm" hidden>
@@ -445,8 +467,10 @@
 <footer>
   <button id="csv">导出 CSV</button>
   <button id="imp">导入 CSV</button>
+  <button id="code">复制备份码</button>
+  <button id="paste">粘贴备份码</button>
   <button id="reset">清空全部记录</button>
-  <svg class="brush" id="br5" viewBox="0 0 44 30" aria-hidden="true"></svg>
+  <svg class="sk" id="sk5" viewBox="0 0 58 30" aria-hidden="true"></svg>
   <svg id="pot" viewBox="0 0 54 58" aria-hidden="true"></svg>
   <input id="file" type="file" accept=".csv,text/csv" hidden>
   <div id="err"></div>
@@ -743,41 +767,48 @@ function drawVignettes(){
     P(pen([[40,35],[48,26],[51,21]],64,.3))+P(pen([[11,33],[4,35],[4,44],[10,46]],65,.3))+
     P('M19 15c-3-3 3-5 0-8s3-5 0-7M26 14c-3-3 3-5 0-8M33 15c-3-3 3-5 0-8',1.1);
 }
-// 撇：起笔重、一路收尖；捺：由细渐粗，末端一顿再出锋；点：两头尖中间鼓
-function brushStroke(p0,p1,p2,maxW,kind,seed){
-  const r=seeded(seed),N=28,L=[],Rt=[];
-  for(let i=0;i<=N;i++){
-    const t=i/N,u=1-t;
-    const x=u*u*p0[0]+2*u*t*p1[0]+t*t*p2[0],y=u*u*p0[1]+2*u*t*p1[1]+t*t*p2[1];
-    const dx=2*u*(p1[0]-p0[0])+2*t*(p2[0]-p1[0]),dy=2*u*(p1[1]-p0[1])+2*t*(p2[1]-p1[1]);
-    const len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;
-    let w;
-    if(kind==='pie')w=maxW*Math.pow(u,.72)*(.82+.32*Math.sin(Math.PI*Math.min(1,t*1.7)));
-    else if(kind==='na')w=maxW*(t<.78?Math.pow(t/.78,.85):Math.max(.04,(1-t)/.22));
-    else w=maxW*Math.sin(Math.PI*t);
-    w=Math.max(.18,w)*(.88+r()*.24);
-    L.push([x+nx*w/2,y+ny*w/2]);Rt.push([x-nx*w/2,y-ny*w/2]);
-  }
-  return 'M'+L.concat(Rt.reverse()).map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join('L')+'Z';
-}
-function hair(p0,p2,dx,dy,n,seed){                 // 飞白：笔锋拖出的几丝干笔
-  const r=seeded(seed);let d='';
-  for(let i=0;i<n;i++){const o=(i-(n-1)/2)*1.4+(r()-.5);
-    d+=` M${(p0[0]+dx*o).toFixed(1)} ${(p0[1]+dy*o).toFixed(1)}L${(p2[0]+dx*o*.4).toFixed(1)} ${(p2[1]+dy*o*.4).toFixed(1)}`}
-  return d.trim();
-}
-const BF=d=>`<path d="${d}" fill="currentColor"/>`, BH=d=>`<path d="${d}" fill="none" stroke="currentColor" stroke-width=".55" stroke-linecap="round" opacity=".8"/>`;
-const SPL=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="currentColor"/>`;
-function drawBrushes(){
-  $('br0').innerHTML=BF(brushStroke([52,3],[38,12],[10,26],5.2,'pie',901))+BF(brushStroke([54,18],[56,21],[53,25],3.4,'dian',902))+SPL(44,27,.9);
-  $('br1').innerHTML=BF(brushStroke([5,5],[30,13],[66,29],6.2,'na',911))+BH(hair([48,20],[66,29],.2,-.9,3,912))+
-                     BF(brushStroke([24,2],[18,10],[9,19],3.4,'pie',913))+SPL(40,6,1.1)+SPL(44,4,.6);
-  $('br2').innerHTML=BF(brushStroke([50,3],[32,17],[6,44],6,'pie',921))+BF(brushStroke([45,34],[48,39],[44,45],3.8,'dian',922))+
-                     SPL(20,12,1)+SPL(15,16,.6)+BH(hair([22,32],[6,44],.8,.6,3,923));
-  $('br3').innerHTML=BF(brushStroke([4,6],[20,26],[47,39],5.4,'na',931))+BH(hair([34,33],[47,39],.3,-.9,2,932))+SPL(40,9,1.2);
-  // 一撇一捺交在一起，写成一个"人"
-  $('br4').innerHTML=BF(brushStroke([27,2],[20,20],[4,37],5.2,'pie',941))+BF(brushStroke([24,13],[33,26],[50,37],5.6,'na',942))+SPL(8,6,.9);
-  $('br5').innerHTML=BF(brushStroke([38,3],[26,12],[6,26],4.4,'pie',951))+SPL(36,22,1.1)+SPL(41,25,.6);
+// 边角速写：路牌、登山杖、望远镜、帐篷、指南针、靴子、铅笔、山脊
+function drawSketches(){
+  // 路牌：两块木牌指向相反的方向
+  $('sk1').innerHTML=P(pen([[31,44],[31,8]],1001,.5)+' '+
+    pen([[7,10],[38,10],[44,15],[38,20],[7,20],[7,10]],1002,.5)+' '+
+    pen([[24,24],[55,24],[55,34],[24,34],[18,29],[24,24]],1003,.5)+' '+
+    pen([[12,15],[20,15]],1004,.3)+' '+pen([[23,15],[33,15]],1005,.3)+' '+
+    pen([[29,29],[38,29]],1006,.3)+' '+pen([[41,29],[50,29]],1007,.3)+' '+
+    penCircle(25,43,1.6,1008)+' '+penCircle(38,43.5,1.2,1009));
+  // 登山杖和水壶
+  $('sk2').innerHTML=P(pen([[14,6],[28,49]],1011,.5)+' '+pen([[10,4],[18,7]],1012,.3)+' '+penCircle(9,10,3.2,1013)+' '+
+    penCircle(25.5,42,3.4,1014)+' '+
+    pen([[42,16],[62,16],[62,48],[42,48],[42,16]],1015,.6)+' '+pen([[47,16],[47,9],[57,9],[57,16]],1016,.4)+' '+
+    pen([[44,9],[60,9]],1017,.3)+' '+pen([[46,26],[58,26]],1018,.3)+' '+pen([[46,36],[58,36]],1019,.3));
+  // 望远镜
+  $('sk3').innerHTML=P(penCircle(15,32,10,1021)+' '+penCircle(37,32,10,1022)+' '+penCircle(15,32,5,1023)+' '+penCircle(37,32,5,1024)+' '+
+    pen([[8,24],[10,8],[20,8],[22,24]],1025,.5)+' '+pen([[30,24],[32,8],[42,8],[44,24]],1026,.5)+' '+
+    pen([[22,14],[30,14]],1027,.3)+' '+pen([[10,8],[4,2]],1028,.3)+' '+pen([[42,8],[48,2]],1029,.3));
+  // 帐篷和篝火
+  $('sk4').innerHTML=P(pen([[3,46],[27,10],[51,46],[3,46]],1031,.6)+' '+pen([[20,46],[27,28],[34,46]],1032,.5)+' '+
+    pen([[27,10],[27,3]],1033,.3)+' '+pen([[51,46],[60,41]],1034,.3)+' '+pen([[59,39],[61,44]],1035,.2)+' '+
+    pen([[62,48],[80,43]],1036,.5)+' '+pen([[62,43],[80,48]],1037,.5)+' '+
+    pen([[65,42],[69,31],[72,37],[75,25],[78,42]],1038,.5)+' '+pen([[73,22],[75,16],[72,10],[75,4]],1039,.8));
+  // 指南针，针尖一半涂红
+  $('sk7').innerHTML=P(penCircle(20,20,16,1041)+' '+penCircle(20,20,12.5,1042)+' '+
+    pen([[20,4],[20,8]],1043,.2)+' '+pen([[20,32],[20,36]],1044,.2)+' '+pen([[4,20],[8,20]],1045,.2)+' '+pen([[32,20],[36,20]],1046,.2)+' '+
+    pen([[20,9],[24,20],[20,31],[16,20],[20,9]],1047,.4))+
+    P(pen([[20,9],[24,20],[16,20],[20,9]],1048,.3),1,' fill="var(--red)" fill-opacity=".8"');
+  // 一双登山靴
+  const boot=(x,k)=>pen([[x+2,27],[x+2,7],[x+13,7],[x+13,17],[x+25,21],[x+26,27],[x+2,27]],k,.5)+' '+
+    pen([[x+5,10],[x+10,14]],k+1,.2)+' '+pen([[x+10,10],[x+5,14]],k+2,.2)+' '+pen([[x+2,24],[x+26,24]],k+3,.3);
+  $('sk5').innerHTML=P(boot(0,1051)+' '+boot(29,1061));
+  // 铅笔
+  $('sk6').innerHTML=P(pen([[6,30],[24,6]],1071,.4)+' '+pen([[10,33],[28,9]],1072,.4)+' '+pen([[24,6],[28,9]],1073,.2)+' '+
+    pen([[6,30],[4,34],[10,33]],1074,.2)+' '+pen([[21,10],[25,13]],1075,.2)+' '+pen([[4,34],[6.5,31.5]],1076,.1));
+  // 页脚角落的山脊和日出
+  let pk=pen([[2,34],[12,14],[19,24],[30,6],[40,22],[48,12],[62,34]],1081,.6)+' '+
+    pen([[27,11],[30,6],[33,11]],1082,.2)+' '+pen([[45,16],[48,12],[51,16]],1083,.2)+' '+
+    pen([[2,34],[62,34]],1084,.3)+' '+penCircle(52,7,4,1085);
+  for(let i=0;i<6;i++){const a=-2.6+i*.55;
+    pk+=' '+pen([[52+Math.cos(a)*6,7+Math.sin(a)*6],[52+Math.cos(a)*8.5,7+Math.sin(a)*8.5]],1090+i,.15)}
+  $('peaks').innerHTML=P(pk);
   // 咖啡杯印
   $('ring').innerHTML=`<path d="${penCircle(34,30,25,961)}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-dasharray="46 7 22 5 30 9"/>`+
     `<path d="${penCircle(34,30,21.5,962)}" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>`+
@@ -1099,7 +1130,12 @@ function render(){
   const ws=weekStart(new Date()).getTime();
   const thisWk=state.entries.filter(e=>parse(e.date).getTime()>=ws).reduce((s,e)=>s+e.km,0);
   const lastWk=state.entries.filter(e=>{const d=parse(e.date).getTime();return d>=ws-7*DAY&&d<ws}).reduce((s,e)=>s+e.km,0);
-  $('wk').innerHTML=`本周 <b>${thisWk.toFixed(1)}</b> 公里`+(lastWk?` · 上周 ${lastWk.toFixed(1)}`:'');
+  const M=meta(),goal=M.weekGoal>0?M.weekGoal:0;
+  $('wk').innerHTML=`本周 <b>${thisWk.toFixed(1)}</b> 公里`+(goal?` / ${goal}`:'')+(lastWk?` · 上周 ${lastWk.toFixed(1)}`:'');
+  const gb=$('goalBtn');gb.className=goal&&thisWk>=goal?'hit':'';
+  gb.textContent=!goal?'设个每周目标':thisWk>=goal?'本周目标达成 · 改目标':`离本周目标还差 ${(goal-thisWk).toFixed(1)} 公里`;
+  {const sk=streakOf(state.entries,ws);
+   $('streakTxt').textContent=state.entries.length?`本周走了 ${sk.days} 天`+(sk.weeks>1?` · 连续 ${sk.weeks} 周没断`:''):''}
 
   const n=state.entries.length,days=PC.span;
   const tmUp=state.entries.reduce((a,e)=>a+(e.inc>0?e.km*e.inc*10:0),0);
@@ -1152,7 +1188,11 @@ function render(){
     :'<div class="empty" style="padding:0 2px">还没有徽章。</div>';
 
   $('ctLog').textContent=n?`${n} 次`:'';
-  const es=[...state.entries].sort((a,b)=>a.date<b.date?1:-1).slice(0,40);
+  const all=[...state.entries].sort((a,b)=>a.date<b.date?1:-1),es=showAll?all:all.slice(0,40);
+  const sa=$('showAll');sa.hidden=all.length<=40;sa.textContent=showAll?'只看最近 40 条':`显示全部 ${all.length} 条`;
+  $('mon').innerHTML=n<1?'':'<tr><th>月</th><th>公里</th><th>天</th><th>配速</th><th>爬升</th></tr>'+
+    monthly(state.entries).map(o=>`<tr><td>${o.m.slice(0,4)}.${o.m.slice(5)}</td><td><b>${o.km.toFixed(1)}</b></td><td>${o.days}</td>`+
+      `<td>${o.mkm?paceStr(o.min,o.mkm):'—'}</td><td>${o.up?fmt(o.up)+' m':'—'}</td></tr>`).join('');
   $('entries').innerHTML=es.length?es.map(e=>e.id===editingId?`<div class="row editing">
       <input class="ed" type="date" value="${e.date}" aria-label="日期">
       <input class="ek" type="number" inputmode="decimal" step="0.1" min="0" value="${e.km}" aria-label="公里">
@@ -1170,6 +1210,15 @@ function render(){
       ${detailLine(e)?`<span class="dt">${detailLine(e)}</span>`:''}</div>`).join('')
     :'<div class="empty">还没有记录。走完第一次，从家出发。</div>';
 }
+let showAll=false;
+$('showAll').addEventListener('click',()=>{showAll=!showAll;render()});
+$('goalBtn').addEventListener('click',()=>{
+  const cur=meta().weekGoal||'';
+  const v=prompt('每周想走多少公里？留空就取消目标。',cur);
+  if(v===null)return;
+  const g=parseFloat(v);
+  setMeta({weekGoal:g>0?Math.round(g*10)/10:0});render();
+});
 
 /* ---------- 徽章 ---------- */
 let QUEUE=[];
@@ -1256,6 +1305,38 @@ function pace(){
   const span=Math.max(1,Math.round((today-first)/DAY)+1),win=Math.min(28,span),since=today-(win-1)*DAY;
   const sum=state.entries.filter(e=>parse(e.date).getTime()>=since).reduce((a,e)=>a+e.km,0);
   return{perDay:sum/win,span,n,win};
+}
+// 连续多少周有记录（这周还没走不算断），以及本周走了几天
+function streakOf(entries,ws){
+  const days=new Set(),wks=new Set();
+  entries.forEach(e=>{const d=parse(e.date);days.add(e.date);wks.add(weekStart(d).getTime())});
+  let n=0,w=ws;
+  const prev=t=>weekStart(new Date(t-3*DAY)).getTime();
+  if(!wks.has(w))w=prev(w);
+  while(wks.has(w)){n++;w=prev(w)}
+  return{weeks:n,days:[...days].filter(d=>parse(d).getTime()>=ws).length};
+}
+// 按月：公里、走了几天、有时长的那部分算配速、坡度换算成爬升
+function monthly(entries){
+  const by={};
+  entries.forEach(e=>{const k=e.date.slice(0,7),o=by[k]||(by[k]={km:0,n:0,min:0,mkm:0,up:0,dd:new Set()});
+    o.km+=e.km;o.n++;o.dd.add(e.date);
+    if(e.min>0){o.min+=e.min;o.mkm+=e.km}
+    if(e.inc>0)o.up+=e.km*e.inc*10});
+  return Object.keys(by).sort().reverse().slice(0,12).map(k=>({m:k,km:by[k].km,n:by[k].n,days:by[k].dd.size,min:by[k].min,mkm:by[k].mkm,up:by[k].up}));
+}
+// 备份码：一整份记录压成一串字，手机和电脑之间粘贴就能带走
+const CODE='G318:';
+function b64enc(str){const u=new TextEncoder().encode(str);let b='';for(let i=0;i<u.length;i+=8192)b+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(b)}
+function b64dec(b){const s=atob(b),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return new TextDecoder().decode(u)}
+function toCode(st){return CODE+b64enc(JSON.stringify({v:2,entries:st.entries,ack:st.ack}))}
+function fromCode(txt){
+  const t=String(txt||'').replace(/\s+/g,'');
+  if(!t.startsWith(CODE))throw new Error('not a code');
+  const o=JSON.parse(b64dec(t.slice(CODE.length)));
+  if(!o||!Array.isArray(o.entries))throw new Error('bad');
+  return o.entries.filter(e=>e&&/^\d{4}-\d{2}-\d{2}$/.test(e.date)&&e.km>0)
+    .map(e=>Object.assign({date:e.date,km:Math.round(e.km*10)/10,note:e.note||undefined},extraFrom(e.min,e.inc!=null?e.inc:'',e.rpe)));
 }
 function dateAfter(km,perDay){
   if(!(perDay>0)||km<=0)return null;
@@ -1374,13 +1455,18 @@ function addEntry(km,date,note,extra){
   commit();if(earned)popup(earned);
   flash(`已记录 ${km.toFixed(1)} 公里 · 累计 ${fmt(total())}`);
 }
+let lastAdd={t:0,km:0,date:''};
 $('add').addEventListener('click',()=>{
   const v=parseFloat($('km').value);
   if(!(v>0)){flash('输入一个公里数，比如 6.5',1);$('km').focus();return}
-  const note=$('note').value;
+  const note=$('note').value,today=iso(new Date());
   const ex=$('moreBox').hidden?{}:extraFrom($('mMin').value,$('mInc').value,rpeSel);
-  guardBig(v,()=>{addEntry(v,iso(new Date()),note,ex);$('km').value='';$('note').value='';
-    $('mMin').value='';setRpe(0)});
+  const go=()=>guardBig(v,()=>{addEntry(v,today,note,ex);$('km').value='';$('note').value='';
+    $('mMin').value='';setRpe(0);lastAdd={t:Date.now(),km:v,date:today}});
+  // 一分钟内又记了一样的数，多半是手抖点了两下
+  if(Date.now()-lastAdd.t<60000&&lastAdd.km===v&&lastAdd.date===today){
+    toast(`刚记过 ${v} 公里了，再记一次？`,'再记一次',go,9000);return}
+  go();
 });
 $('km').addEventListener('keydown',e=>{if(e.key==='Enter')$('add').click()});
 let rpeSel=0;
@@ -1478,6 +1564,18 @@ $('csv').addEventListener('click',()=>{
 $('imp').addEventListener('click',()=>$('file').click());
 $('backupGo').addEventListener('click',()=>$('csv').click());
 $('backupLater').addEventListener('click',()=>{setMeta({snooze:Date.now()+7*DAY});checkBackup()});
+// 同一天记了两次一样的公里数是合法的：按出现次数比，不按"有没有"比
+function mergeRows(rows){
+  const key=x=>x.date+'|'+x.km+'|'+(x.note||'');
+  const have={};state.entries.forEach(x=>{have[key(x)]=(have[key(x)]||0)+1});
+  const add=[];
+  rows.forEach(r=>{const k=key(r);if(have[k]>0)have[k]--;else add.push(Object.assign({
+    id:Date.now().toString(36)+Math.random().toString(36).slice(2,6)},r))});
+  state.entries=state.entries.concat(add);
+  state.ack=Math.min(total(),FULL);
+  commit();
+  flash(`导入 ${add.length} 条，跳过重复 ${rows.length-add.length} 条`);
+}
 $('file').addEventListener('change',e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
   const rd=new FileReader();
@@ -1485,18 +1583,23 @@ $('file').addEventListener('change',e=>{
     let rows=[];
     try{rows=parseCSV(String(rd.result))}catch(err){flash('这个文件读不出来',1);return}
     if(!rows.length){flash('没读到有效记录（需要 日期,公里 两列）',1);return}
-    // 同一天记了两次一样的公里数是合法的：按出现次数比，不按"有没有"比
-    const key=x=>x.date+'|'+x.km+'|'+(x.note||'');
-    const have={};state.entries.forEach(x=>{have[key(x)]=(have[key(x)]||0)+1});
-    const add=[];
-    rows.forEach(r=>{const k=key(r);if(have[k]>0)have[k]--;else add.push(Object.assign({
-      id:Date.now().toString(36)+Math.random().toString(36).slice(2,6)},r))});
-    state.entries=state.entries.concat(add);
-    state.ack=Math.min(total(),FULL);
-    commit();
-    flash(`导入 ${add.length} 条，跳过重复 ${rows.length-add.length} 条`);
+    mergeRows(rows);
   };
   rd.readAsText(f);e.target.value='';
+});
+$('code').addEventListener('click',async()=>{
+  if(!state.entries.length){flash('还没有记录',1);return}
+  const c=toCode(state);
+  try{await navigator.clipboard.writeText(c);flash(`备份码已复制，${state.entries.length} 条记录 · 到另一台设备点"粘贴备份码"`)}
+  catch(err){prompt('复制下面这串备份码：',c)}
+  setMeta({lastExport:Date.now(),snooze:0});checkBackup();
+});
+$('paste').addEventListener('click',()=>{
+  const t=prompt('把备份码粘贴到这里：');if(t===null)return;
+  let rows=[];
+  try{rows=fromCode(t)}catch(err){flash('这不是一串有效的备份码',1);return}
+  if(!rows.length){flash('备份码里没有记录',1);return}
+  mergeRows(rows);
 });
 $('reset').addEventListener('click',()=>{
   if(!armed){armed=true;$('reset').textContent='再点一次，全部清空';$('reset').classList.add('arm');
@@ -1511,7 +1614,7 @@ $('wv1').setAttribute('d',wavePath(600,9,11,21));
 $('wv2').setAttribute('d',doubleRule(22));
 $('wv3').setAttribute('d',trailRule(23));
 $('sq1').setAttribute('d',wavePath(210,12,3.2,31));
-drawVignettes();drawBrushes();
+drawVignettes();drawSketches();
 let savedTheme=null;try{savedTheme=localStorage.getItem(TKEY)}catch(e){}
 applyTheme(savedTheme);
 try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{

@@ -1,0 +1,8 @@
+{
+  "name": "g318",
+  "private": true,
+  "description": "走到大昭寺：跑步机上走完 G318 的记录本",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
